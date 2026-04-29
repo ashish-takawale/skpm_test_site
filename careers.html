@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | SKPM & Associates LLP</title>
+    <meta name="description" content="Join the SKPM & Associates LLP team. Explore open positions and apply online.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="config.js"></script>
+    <style>
+        /* ---- Careers Page Specific Styles ---- */
+        .careers-hero {
+            background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 60%, #2563EB 100%);
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            color: white;
+        }
+        .careers-hero h1 { font-size: 3.5rem; font-weight: 800; font-family: var(--body-font); margin-bottom: 1rem; color: #FFFFFF !important; }
+        .careers-hero p { font-size: 1.2rem; opacity: 0.85; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+        .careers-hero .badge {
+            display: inline-block; background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 50px;
+            padding: 0.4rem 1.2rem; font-size: 0.9rem; font-weight: 600;
+            letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem;
+            color: #93C5FD;
+        }
+
+        /* ---- Openings ---- */
+        .openings-section { padding: 5rem 0; background-color: #F8FAFC; }
+        .openings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; }
+        .opening-card {
+            background: white; border-radius: 16px; border: 1px solid #E2E8F0;
+            padding: 2rem; transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .opening-card:hover { box-shadow: 0 10px 30px rgba(37,99,235,0.12); transform: translateY(-4px); border-color: #BFDBFE; }
+        .opening-tag {
+            display: inline-block; font-size: 0.78rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; padding: 0.3rem 0.9rem;
+            border-radius: 50px; margin-bottom: 1rem;
+        }
+        .tag-blue { background: #DBEAFE; color: #1D4ED8; }
+        .tag-green { background: #DCFCE7; color: #15803D; }
+        .tag-purple { background: #EDE9FE; color: #6D28D9; }
+        .tag-orange { background: #FEF3C7; color: #B45309; }
+        .opening-card h3 { font-size: 1.3rem; font-family: var(--body-font); color: #0F172A; margin-bottom: 0.5rem; font-weight: 700; }
+        .opening-card .meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        .opening-card .meta span { font-size: 0.85rem; color: #64748B; display: flex; align-items: center; gap: 0.3rem; }
+        .opening-card p { color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .opening-card .apply-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            color: #2563EB; font-weight: 600; font-size: 0.95rem;
+            text-decoration: none; transition: gap 0.2s ease;
+        }
+        .opening-card .apply-link:hover { gap: 0.7rem; }
+
+        /* ---- Application Form ---- */
+        .application-section { padding: 5rem 0; background: white; }
+        .application-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+        .application-section .section-header h2 { font-size: 2.5rem; font-weight: 700; font-family: var(--body-font); color: #0F172A; margin-bottom: 0.7rem; }
+        .application-section .section-header p { color: #64748B; font-size: 1.05rem; }
+
+        .application-form-wrapper {
+            max-width: 800px; margin: 0 auto;
+            background: #F8FAFC; border-radius: 20px;
+            padding: 3rem; border: 1px solid #E2E8F0;
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .careers-form .form-group { margin-bottom: 1.5rem; }
+        .careers-form label { display: block; font-weight: 600; font-size: 0.9rem; color: #0F172A; margin-bottom: 0.5rem; }
+        .careers-form .form-control {
+            width: 100%; padding: 0.85rem 1rem; border: 1px solid #CBD5E1;
+            border-radius: 10px; font-family: var(--body-font); font-size: 0.97rem;
+            background: white; transition: border-color 0.25s ease;
+        }
+        .careers-form .form-control:focus { outline: none; border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .careers-form select.form-control { cursor: pointer; }
+        .careers-form textarea.form-control { resize: vertical; }
+        .file-upload-note { font-size: 0.82rem; color: #94A3B8; margin-top: 0.4rem; }
+
+        .submit-careers-btn {
+            width: 100%; background: #2563EB; color: white;
+            padding: 1rem 2rem; border: none; border-radius: 10px;
+            font-family: var(--body-font); font-size: 1.05rem; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+        }
+        .submit-careers-btn:hover { background: #1D4ED8; box-shadow: 0 6px 20px rgba(37,99,235,0.35); transform: translateY(-1px); }
+        .submit-careers-btn svg { width: 20px; height: 20px; }
+
+        /* ---- Values Strip ---- */
+        .values-strip { background: #0F172A; padding: 4rem 0; }
+        .values-strip h2 { color: white; font-size: 2rem; font-family: var(--body-font); font-weight: 700; text-align: center; margin-bottom: 3rem; }
+        .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        .value-item { text-align: center; }
+        .value-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .value-item h4 { color: #93C5FD; font-family: var(--body-font); margin-bottom: 0.5rem; font-size: 1.05rem; }
+        .value-item p { color: #94A3B8; font-size: 0.9rem; line-height: 1.5; }
+
+        @media (max-width: 768px) {
+            .careers-hero h1 { font-size: 2.4rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .values-grid { grid-template-columns: repeat(2, 1fr); }
+            .application-form-wrapper { padding: 2rem 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .values-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo/s-k-p-m-associates-llp-chartered-accountants-1.png" alt="SKPM & Associates LLP Logo" id="nav-logo" class="logo-large">
+            </a>
+            <div class="mobile-toggle" id="mobile-menu-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li class="mobile-nav-header">
+                    <img src="logo/s-k-p-m-associates-llp-chartered-accountants-1.png" alt="SKPM Logo">
+                    <div class="mobile-close" id="mobile-close-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                </li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="careers.html" class="active">Careers</a></li>
+                <li class="nav-cta-wrapper"><a href="index.html#get-in-touch" class="nav-cta-btn">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="careers-hero">
+        <span class="badge">Now Hiring</span>
+        <h1>Build Your Career With Us</h1>
+        <p>Join a team of sharp minds committed to transforming the way businesses handle their finances. We invest in our people.</p>
+    </section>
+
+    <!-- Why Join Us Values -->
+    <section class="values-strip">
+        <div class="container">
+            <h2>Why Join SKPM?</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="value-icon">ðŸŽ“</div>
+                    <h4>Continuous Learning</h4>
+                    <p>Sponsored certifications, training programs & knowledge sessions</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">ðŸš€</div>
+                    <h4>Fast-Track Growth</h4>
+                    <p>Merit-based promotions with clear & transparent career paths</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">ðŸ¤</div>
+                    <h4>Collaborative Culture</h4>
+                    <p>A supportive environment where every voice is heard and valued</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">âš–ï¸</div>
+                    <h4>Work-Life Balance</h4>
+                    <p>Flexible timings, hybrid options and a caring leadership team</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Application Form -->
+    <section class="application-section" id="apply-now">
+        <div class="container">
+            <div class="section-header">
+                <h2>Apply Now</h2>
+                <p>Fill in the form below and we'll get back to you within 3 working days</p>
+            </div>
+            <div class="application-form-wrapper">
+                <form class="careers-form" action="https://api.web3forms.com/submit" method="POST">
+                    <!-- Web3Forms Config -->
+                    <input type="hidden" name="access_key" value="9bdf0292-5b1f-46cd-8bd4-05ef0d06737a">
+                    <input type="hidden" name="subject" value="New Career Application â€“ SKPM Website">
+                    <input type="checkbox" name="botcheck" style="display:none;">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="c-fname">First Name *</label>
+                            <input type="text" id="c-fname" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="c-lname">Last Name *</label>
+                            <input type="text" id="c-lname" name="last_name" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="c-email">Email Address *</label>
+                            <input type="email" id="c-email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="c-phone">Phone Number *</label>
+                            <input type="tel" id="c-phone" name="phone" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="c-position">Position Applying For *</label>
+                        <select id="c-position" name="position" class="form-control" required>
+                            <option value="" disabled selected>Select a position</option>
+                            <option>Article Assistant (CA Articleship)</option>
+                            <option>Senior Accountant</option>
+                            <option>Tax Consultant</option>
+                            <option>Operations & Admin Intern</option>
+                            <option>Other / General Application</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="c-edu">Highest Qualification *</label>
+                            <input type="text" id="c-edu" name="qualification" class="form-control" placeholder="e.g. CA Inter, B.Com, M.Com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="c-exp">Years of Experience</label>
+                            <input type="text" id="c-exp" name="experience" class="form-control" placeholder="e.g. Fresher, 2 Years">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="c-linkedin">LinkedIn / Portfolio URL (Optional)</label>
+                        <input type="url" id="c-linkedin" name="linkedin" class="form-control" placeholder="https://linkedin.com/in/yourprofile">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="c-message">Cover Letter / Why do you want to join us? *</label>
+                        <textarea id="c-message" name="message" class="form-control" rows="5" required placeholder="Tell us about yourself and why you're a great fit..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-careers-btn">
+                        Submit Application
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container footer-grid-clean" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div class="footer-col">
+                <h3 style="color: white; font-family: var(--heading-font); font-size: 1.5rem; margin-bottom: 0.5rem;">SKPM & Associates LLP</h3>
+                <p style="color: #ccc; font-size:0.9rem;">Your trusted partner for comprehensive financial, taxation, and corporate governance solutions.</p>
+            </div>
+            <div class="footer-col contact-col" style="text-align: right;">
+                <h4>Contact Us</h4>
+                <ul id="footer-contact-info" style="list-style: none; padding: 0;"></ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SKPM & Associates LLP. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+

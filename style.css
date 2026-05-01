@@ -1283,7 +1283,7 @@ nav.nav-light-bg .nav-links a {
 }
 
 .footer-bottom {
-    background-color: #020617;
+    background-color: #192752;
     text-align: center;
     padding: 1.5rem;
     font-size: 0.9rem;
@@ -1982,8 +1982,8 @@ nav.nav-light-bg .nav-links a {
 }
 
 .btn-submit {
-    width: 100%;
-    display: flex;
+    width: fit-content;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
@@ -1998,6 +1998,8 @@ nav.nav-light-bg .nav-links a {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .btn-submit:hover {
@@ -2291,11 +2293,11 @@ nav.nav-light-bg .nav-links a {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.24) 1.8px, transparent 1.8px);
-    background-size: 26px 26px;
-    background-position: 12px 14px;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.8px, transparent 1.8px);
+    background-size: 18px 18px;
+    background-position: 9px 9px;
     pointer-events: none;
-    opacity: 1;
+    opacity: 0.9;
 }
 
 .services-cta-banner h2,
@@ -3378,6 +3380,26 @@ nav.navbar-scrolled .mobile-toggle {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.sd-cta-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.8px, transparent 1.8px);
+    background-size: 18px 18px;
+    background-position: 9px 9px;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+.sd-cta-banner h2,
+.sd-cta-banner p,
+.sd-cta-banner .sd-primary-btn {
+    position: relative;
+    z-index: 1;
 }
 
 .sd-cta-banner h2 {

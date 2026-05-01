@@ -677,7 +677,7 @@ function renderServiceDetail() {
             </section>
 
             <div class="sd-split-grid">
-                <section class="sd-compact-card blue">
+                <section class="sd-compact-card white">
                     <div class="sd-section-header">
                         <div class="sd-header-icon bg-blue-main">
                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
@@ -748,7 +748,7 @@ function renderAboutPage() {
         <section class="about-hero">
             <div class="container">
                 <span class="hero-badge">${hero.badge}</span>
-                <h1>${hero.title.replace('Financial Journey', '<span class="title-gradient">Financial Journey</span>')}</h1>
+                <h1>${hero.title.replace('Financial Journey', '<br><span class="title-gradient">Financial Journey</span>')}</h1>
                 <p>${hero.description}</p>
                 
                 <div class="about-hero-stats">
@@ -905,4 +905,74 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+});
+
+// Careers Form Submission Handler
+document.addEventListener('DOMContentLoaded', () => {
+    const careersForm = document.getElementById('careers-form');
+    if (!careersForm) return;
+
+    careersForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const messageDiv = document.getElementById('careers-form-message');
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const resumeInput = document.getElementById('c-resume');
+        const originalBtnText = submitBtn.innerHTML;
+        const maxBytes = 10 * 1024 * 1024; // 10 MB
+        const allowedExt = ['pdf', 'doc', 'docx', 'rtf', 'txt', 'odt'];
+
+        if (resumeInput && resumeInput.files && resumeInput.files.length > 0) {
+            const file = resumeInput.files[0];
+            const fileExt = file.name.includes('.') ? file.name.split('.').pop().toLowerCase() : '';
+            if (!allowedExt.includes(fileExt)) {
+                messageDiv.textContent = 'Invalid resume format. Please upload PDF, DOC, DOCX, RTF, TXT, or ODT.';
+                messageDiv.style.color = '#DC2626';
+                messageDiv.style.backgroundColor = '#FEE2E2';
+                messageDiv.style.display = 'block';
+                return;
+            }
+
+            if (file.size > maxBytes) {
+                messageDiv.textContent = 'Resume file is too large. Maximum allowed size is 10 MB.';
+                messageDiv.style.color = '#DC2626';
+                messageDiv.style.backgroundColor = '#FEE2E2';
+                messageDiv.style.display = 'block';
+                return;
+            }
+        }
+
+        submitBtn.innerHTML = 'Submitting...';
+        submitBtn.disabled = true;
+        messageDiv.style.display = 'none';
+
+        try {
+            const formData = new FormData(this);
+            formData.append('form_type', 'careers');
+            formData.append('sheet_name', 'careers');
+            formData.append('notification_email', 'contact@skpm.co.in');
+            formData.append('notification_subject', `New Career Application - ${formData.get('name') || ''}`);
+
+            await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            });
+
+            messageDiv.textContent = 'Thank you! Your application has been submitted successfully.';
+            messageDiv.style.color = '#059669';
+            messageDiv.style.backgroundColor = '#D1FAE5';
+            messageDiv.style.display = 'block';
+            careersForm.reset();
+        } catch (error) {
+            messageDiv.textContent = 'Oops! Something went wrong. Please try again later.';
+            messageDiv.style.color = '#DC2626';
+            messageDiv.style.backgroundColor = '#FEE2E2';
+            messageDiv.style.display = 'block';
+            console.error('Careers form submission error:', error);
+        } finally {
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    });
 });

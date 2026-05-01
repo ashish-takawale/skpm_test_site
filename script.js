@@ -817,44 +817,156 @@ function renderAboutPage() {
         </section>
 
         <section class="leadership-section">
-            <div class="container" style="max-width: 1200px;">
+            <div class="container" style="max-width: 1320px;">
                 <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
                     <div style="margin-bottom: 0.5rem;">
                         <span class="hero-badge">${leadership.badge}</span>
                     </div>
-                    <h2 class="global-heading" style="margin-bottom: 0.5rem;">Meet the Experts</h2>
+                    <h2 class="global-heading" style="margin-bottom: 0.5rem;">${leadership.title}</h2>
+                    <p class="global-body" style="max-width: 760px; margin: 0 auto;">${leadership.subtitle || ''}</p>
                 </div>
 
                 <div class="team-grid" style="margin-top: 1rem;">
-                    ${siteConfig.teamMembers.map(member => {
-                        let socialHtml = '<div class="member-socials">';
-                        if (member.linkedin) {
-                            socialHtml += '<a href="' + member.linkedin + '" target="_blank" class="member-social-btn linkedin" aria-label="LinkedIn">' +
-                                          '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>' +
-                                          '</a>';
-                        }
-                        if (member.instagram) {
-                            socialHtml += '<a href="' + member.instagram + '" target="_blank" class="member-social-btn instagram" aria-label="Instagram">' +
-                                          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>' +
-                                          '</a>';
-                        }
-                        socialHtml += '</div>';
+                    ${leadership.partners.map((partner, index) => {
+                        const fallbackProfile = (siteConfig.teamMembers && siteConfig.teamMembers[index]) ? siteConfig.teamMembers[index] : {};
+                        const displayName = partner.fullName || partner.name || '';
+                        const displayDesignation = partner.designation || '';
+                        const imagePath = partner.image || fallbackProfile.imagePath || '';
 
-                        return '<div class="team-card">' +
+                        return '<div class="team-card about-member-card" data-member-index="' + index + '">' +
                                '<div class="team-img-wrapper">' +
-                               '<img src="' + resolveAssetPath(member.imagePath) + '" alt="' + member.name + '">' +
+                               '<img src="' + resolveAssetPath(imagePath) + '" alt="' + displayName + '">' +
                                '</div>' +
                                '<div class="team-info">' +
-                               '<h3>' + member.name + '</h3>' +
-                               '<p class="designation">' + member.qualifications + '</p>' +
-                               socialHtml +
+                               '<h3>' + displayName + '</h3>' +
+                               '<p class="designation">' + displayDesignation + '</p>' +
                                '</div>' +
                                '</div>';
                     }).join('')}
                 </div>
             </div>
         </section>
+
+        <div class="about-member-modal" id="about-member-modal" aria-hidden="true">
+            <div class="about-member-modal-backdrop" data-about-modal-close="true"></div>
+            <div class="about-member-modal-panel" role="dialog" aria-modal="true" aria-labelledby="about-member-modal-name">
+                <button type="button" class="about-member-modal-close" aria-label="Close profile" data-about-modal-close="true">&times;</button>
+                <div class="about-member-modal-grid">
+                    <aside class="about-member-modal-media">
+                        <img id="about-member-modal-image" alt="">
+                        <div class="about-member-modal-media-overlay">
+                            <h3 id="about-member-modal-name"></h3>
+                            <p id="about-member-modal-role"></p>
+                            <div class="about-member-modal-chips" id="about-member-modal-chips"></div>
+                        </div>
+                    </aside>
+                    <div class="about-member-modal-content">
+                        <p class="about-member-modal-bio" id="about-member-modal-bio"></p>
+                        <div class="about-member-modal-section">
+                            <h4>Specialisations</h4>
+                            <ul id="about-member-modal-specializations"></ul>
+                        </div>
+                        <div class="about-member-modal-meta">
+                            <div class="about-member-modal-meta-card about-member-modal-edu">
+                                <h5>Education</h5>
+                                <p id="about-member-modal-education"></p>
+                            </div>
+                            <div class="about-member-modal-meta-card about-member-modal-achievement">
+                                <h5>Key Achievement</h5>
+                                <p id="about-member-modal-achievement"></p>
+                            </div>
+                        </div>
+                        <div class="about-member-modal-actions">
+                            <a id="about-member-modal-linkedin" class="about-member-action-linkedin" href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <a id="about-member-modal-email" class="about-member-action-email" href="#">Email</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     `;
+
+    const memberCards = root.querySelectorAll('.about-member-card');
+    const memberModal = root.querySelector('#about-member-modal');
+    if (!memberCards.length || !memberModal) return;
+
+    const modalImage = root.querySelector('#about-member-modal-image');
+    const modalName = root.querySelector('#about-member-modal-name');
+    const modalRole = root.querySelector('#about-member-modal-role');
+    const modalBio = root.querySelector('#about-member-modal-bio');
+    const modalChips = root.querySelector('#about-member-modal-chips');
+    const modalSpecs = root.querySelector('#about-member-modal-specializations');
+    const modalEducation = root.querySelector('#about-member-modal-education');
+    const modalAchievement = root.querySelector('#about-member-modal-achievement');
+    const modalLinkedin = root.querySelector('#about-member-modal-linkedin');
+    const modalEmail = root.querySelector('#about-member-modal-email');
+
+    const sampleSpecializations = [
+        'Income Tax Planning & Advisory',
+        'GST Compliance & Litigation',
+        'International Taxation & Transfer Pricing',
+        'Corporate Tax Structuring',
+        'Tax Due Diligence'
+    ];
+
+    const closeMemberModal = () => {
+        memberModal.classList.remove('is-open');
+        memberModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    const openMemberModal = (index) => {
+        const partner = leadership.partners[index];
+        const fallbackProfile = (siteConfig.teamMembers && siteConfig.teamMembers[index]) ? siteConfig.teamMembers[index] : {};
+        if (!partner) return;
+
+        const displayName = partner.fullName || partner.name || 'Team Member';
+        const displayRole = partner.designation || 'Partner';
+        const displayImage = partner.popupImage || partner.image || fallbackProfile.imagePath || '';
+        const displayBio = partner.bio || `${displayName} is a valued member of our leadership team with deep professional expertise and a strong commitment to client outcomes.`;
+        const displaySpecs = Array.isArray(partner.specializations) && partner.specializations.length ? partner.specializations : sampleSpecializations;
+        const displayEducation = partner.education || 'B.Com (Hons) · Professional Certification';
+        const displayAchievement = partner.achievement || 'Successfully led multiple high-impact client mandates.';
+        const linkedin = partner.linkedin || fallbackProfile.linkedin || '';
+
+        modalImage.src = resolveAssetPath(displayImage);
+        modalImage.alt = displayName;
+        modalName.textContent = displayName;
+        modalRole.textContent = displayRole;
+        modalBio.textContent = displayBio;
+        modalEducation.textContent = displayEducation;
+        modalAchievement.textContent = displayAchievement;
+        modalSpecs.innerHTML = displaySpecs.map(item => `<li>${item}</li>`).join('');
+        modalChips.innerHTML = '';
+        modalChips.style.display = 'none';
+        modalLinkedin.href = linkedin || '#';
+        modalLinkedin.style.pointerEvents = linkedin ? 'auto' : 'none';
+        modalLinkedin.style.opacity = linkedin ? '1' : '0.6';
+        modalEmail.href = `mailto:${partner.email || siteConfig.contactInfo.email}`;
+
+        memberModal.classList.add('is-open');
+        memberModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+
+    memberCards.forEach((card) => {
+        card.addEventListener('click', () => {
+            openMemberModal(Number(card.dataset.memberIndex));
+        });
+    });
+
+    memberModal.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target instanceof HTMLElement && target.dataset.aboutModalClose === 'true') {
+            closeMemberModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && memberModal.classList.contains('is-open')) {
+            closeMemberModal();
+        }
+    });
 }
 
 // Contact Form Submission Handler

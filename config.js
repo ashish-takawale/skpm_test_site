@@ -12,7 +12,7 @@ const siteConfig = {
     contactInfo: {
         address: "602, Akshay House, Behind Nagnath Par, Sadashiv Peth Pune, Maharashtra - 411030.",
         phone: "+91-8830239955",
-        email: "ashishtakawale.work@gmail.com",
+        email: "contact@skpm.co.in",
         mapUrl: "https://maps.app.goo.gl/Vrg5zsA7fe6bBWLf8",
         businessHours: {
             mondayToFriday: "10:00 AM - 7:00 PM",

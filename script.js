@@ -1,4 +1,31 @@
+function isNestedPagePath() {
+    return window.location.pathname.includes('/pages/');
+}
+
+function getRootPrefix() {
+    return isNestedPagePath() ? '../../' : '';
+}
+
+function getServicesPrefix() {
+    return isNestedPagePath() ? '' : 'pages/services/';
+}
+
+function getAboutPagePath() {
+    return isNestedPagePath() ? '../about/about.html' : 'pages/about/about.html';
+}
+
+function resolveAssetPath(assetPath) {
+    if (!assetPath) return assetPath;
+    if (/^(https?:)?\/\//.test(assetPath) || assetPath.startsWith('data:')) return assetPath;
+    if (assetPath.startsWith('../') || assetPath.startsWith('./') || assetPath.startsWith('/')) return assetPath;
+    return `${getRootPrefix()}${assetPath}`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+    const rootPrefix = getRootPrefix();
+    const servicesPrefix = getServicesPrefix();
+    const aboutPagePath = getAboutPagePath();
+
     // ---------------------------------------------------------
     // 0. Navbar Scroll Effect
     // ---------------------------------------------------------
@@ -63,44 +90,99 @@ document.addEventListener("DOMContentLoaded", () => {
             brandQuote.innerHTML = `<span class="bq-line1">${l1}</span><br><span class="bq-line2">${l2}</span>`;
         }
 
-        // Populate Footer Contact Info
-        const footerContact = document.getElementById("footer-contact-info");
-        if (footerContact) {
-            footerContact.innerHTML = `
-                <li><strong>Address:</strong> ${siteConfig.contactInfo.address}</li>
-                <li><strong>Phone:</strong> ${siteConfig.contactInfo.phone}</li>
-                <li><strong>Email:</strong> ${siteConfig.contactInfo.email}</li>
-                <li style="margin-top: 1rem;"><a href="${siteConfig.contactInfo.mapUrl}" target="_blank" title="Open in Google Maps" style="display: inline-flex; align-items: center; gap: 0.6rem; color: #38BDF8; font-weight: 500; font-size: 0.95rem;"><img src="images/maps.png" alt="Google Maps" style="width: 28px; height: 28px; object-fit: contain;"> Google Maps</a></li>
-            `;
-        }
-
-        // Populate Business Hours Card
+        // ── SHARED FOOTER INJECTION ──────────────────────────────
         const businessHoursContainer = document.getElementById("business-hours-container");
-        if (businessHoursContainer && siteConfig.contactInfo.businessHours) {
+        if (businessHoursContainer && siteConfig.contactInfo && siteConfig.contactInfo.businessHours) {
+            const hours = siteConfig.contactInfo.businessHours;
             businessHoursContainer.innerHTML = `
                 <div class="business-hours-card">
                     <h4>Business Hours</h4>
-                    <p>Monday - Friday: ${siteConfig.contactInfo.businessHours.mondayToFriday}</p>
-                    <p>Saturday: ${siteConfig.contactInfo.businessHours.saturday}</p>
-                    <p>Sunday: ${siteConfig.contactInfo.businessHours.sunday}</p>
+                    <p>Monday - Friday: ${hours.mondayToFriday || ''}</p>
+                    <p>Saturday: ${hours.saturday || ''}</p>
+                    <p>Sunday: ${hours.sunday || ''}</p>
                 </div>
             `;
         }
 
-        // Populate Social Links
-        const socialLinksContainer = document.getElementById("footer-social-links");
-        if (socialLinksContainer && siteConfig.socialLinks) {
-            let socialHtml = "";
-            if (siteConfig.socialLinks.linkedin) {
-                socialHtml += `
-                    <a href="${siteConfig.socialLinks.linkedin}" target="_blank" aria-label="LinkedIn" 
-                       style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: #0077b5; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.342-4-3.085-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        const footerPlaceholder = document.getElementById('footer-placeholder');
+        if (footerPlaceholder) {
+            // Build LinkedIn icon
+            let socialHtml = '';
+            if (siteConfig.socialLinks && siteConfig.socialLinks.linkedin) {
+                socialHtml = `<a href="${siteConfig.socialLinks.linkedin}" target="_blank" aria-label="LinkedIn"
+                    style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:transparent;border-radius:8px;transition:all 0.3s ease;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.342-4-3.085-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>`;
+            }
+
+            // Build contact info
+            const c = siteConfig.contactInfo || {};
+            const contactHtml = `
+                <li><strong>Address:</strong> ${c.address || ''}</li>
+                <li><strong>Phone:</strong> ${c.phone || ''}</li>
+                <li><strong>Email:</strong> ${c.email || ''}</li>
+                ${c.mapUrl ? `<li style="margin-top:1rem;">
+                    <a href="${c.mapUrl}" target="_blank" title="Open in Google Maps"
+                       style="display:inline-flex;align-items:center;gap:0.6rem;color:#38BDF8;font-weight:500;font-size:0.95rem;">
+                       <img src="${resolveAssetPath('images/maps.png')}" alt="Google Maps" style="width:28px;height:28px;object-fit:contain;"> Google Maps
                     </a>
+                </li>` : ''}
+            `;
+
+            footerPlaceholder.outerHTML = `
+            <footer id="contact" class="footer">
+                <div class="container footer-grid-clean">
+                    <div class="footer-col">
+                        <img src="${resolveAssetPath('logo/s-k-p-m-associates-llp-chartered-accountants-1.png')}" alt="SKPM logo" class="footer-logo">
+                        <p style="color:#ccc;font-size:0.9rem;">Your trusted partner for financial, taxation, and corporate governance solutions globally.</p>
+                        <div class="social-links dark-socials" style="margin-top:1.5rem;">${socialHtml}</div>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul style="list-style:none;padding:0;">
+                            <li><a href="${rootPrefix}index.html#home">Home</a></li>
+                            <li><a href="${aboutPagePath}">About Firm</a></li>
+                            <li><a href="${rootPrefix}index.html#industries">Industries</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Useful Links</h4>
+                        <ul style="list-style:none;padding:0;">
+                            <li><a href="https://www.incometaxindia.gov.in/" target="_blank">Income Tax Dept.</a></li>
+                            <li><a href="https://www.tin-nsdl.com/" target="_blank">E-Tax Information Network</a></li>
+                            <li><a href="https://www.mca.gov.in/content/mca/global/en/home.html" target="_blank">Ministry of Corporate Affairs</a></li>
+                            <li><a href="https://epfindia.com/site_en/" target="_blank">Employees Provident Fund</a></li>
+                            <li><a href="https://www.cbic.gov.in/" target="_blank">Central Board of Excise and Custom</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col contact-col">
+                        <h4>Contact Us</h4>
+                        <ul style="list-style:none;padding:0;">${contactHtml}</ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 SKPM &amp; Associates LLP. All rights reserved.</p>
+                </div>
+            </footer>`;
+        } else {
+            // Legacy fallback: populate individual elements if footer already in HTML
+            const footerContact = document.getElementById("footer-contact-info");
+            if (footerContact && siteConfig.contactInfo) {
+                const c = siteConfig.contactInfo;
+                footerContact.innerHTML = `
+                    <li><strong>Address:</strong> ${c.address}</li>
+                    <li><strong>Phone:</strong> ${c.phone}</li>
+                    <li><strong>Email:</strong> ${c.email}</li>
+                    ${c.mapUrl ? `<li style="margin-top:1rem;"><a href="${c.mapUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:0.6rem;color:#38BDF8;font-weight:500;font-size:0.95rem;"><img src="${resolveAssetPath('images/maps.png')}" alt="Google Maps" style="width:28px;height:28px;object-fit:contain;"> Google Maps</a></li>` : ''}
                 `;
             }
-            socialLinksContainer.innerHTML = socialHtml;
+            const socialLinksContainer = document.getElementById("footer-social-links");
+            if (socialLinksContainer && siteConfig.socialLinks && siteConfig.socialLinks.linkedin) {
+                socialLinksContainer.innerHTML = `<a href="${siteConfig.socialLinks.linkedin}" target="_blank" aria-label="LinkedIn" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:transparent;border-radius:8px;transition:all 0.3s ease;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.342-4-3.085-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>`;
+            }
         }
+        // ── END SHARED FOOTER ────────────────────────────────────
+
 
         // New Feature: Interactive Hover-Image Cards for Services
         const homeServicesGrid = document.getElementById("home-services-grid");
@@ -111,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const servicesToRender = typeof servicesConfig !== 'undefined' ? servicesConfig : (siteConfig.services || []);
             servicesToRender.forEach((service) => {
                 const card = document.createElement("a");
-                card.href = service.link || 'service-detail.html';
+                card.href = `${servicesPrefix}${service.link || 'service-detail.html'}`;
                 card.className = `hover-img-card theme-${service.theme || 'blue'}`;
                 
                 // Persistence fix: Store selected service in session storage to avoid URL param stripping issues
@@ -119,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
                    sessionStorage.setItem('selectedService', service.id);
                 };
                 
-                const imgUrl = service.bgImage || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80";
+                const imgUrl = resolveAssetPath(service.bgImage) || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80";
 
                 // Map service themes to professional SVG icons
                 const svgIcons = {
@@ -158,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const servicesToRender = typeof servicesConfig !== 'undefined' ? servicesConfig : (siteConfig.services || []);
             servicesToRender.forEach((service, index) => {
                 const card = document.createElement("a");
-                card.href = service.link || 'service-detail.html';
+                card.href = `${servicesPrefix}${service.link || 'service-detail.html'}`;
                 card.className = `sf-card theme-${service.theme} service-link-wrapper`;
                 
                 card.onclick = () => {
@@ -207,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 memberCard.innerHTML = `
                     <div class="team-img-wrapper">
-                        <img src="${member.imagePath}" alt="${member.name}">
+                        <img src="${resolveAssetPath(member.imagePath)}" alt="${member.name}">
                     </div>
                     <div class="team-info">
                         <h3>${member.name}</h3>
@@ -248,8 +330,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         const ind = siteConfig.industries[industryIdx];
                         const cell = document.createElement("div");
                         cell.className = "hex-cell";
+                        const randomDelay = (Math.random() * 3.5).toFixed(2);
+                        cell.style.animationDelay = `-${randomDelay}s`;
                         cell.innerHTML = `
-                            <img src="${ind.img}" class="hex-img" alt="${ind.name}">
+                            <img src="${resolveAssetPath(ind.img)}" class="hex-img" alt="${ind.name}">
                             <div class="hex-overlay"></div>
                             <div class="hex-content">
                                 <h4 style="font-size: 1.6rem; margin-bottom: 3px;">${ind.emoji}</h4>
@@ -333,6 +417,32 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }, { threshold: 0.2 });
         servicesObserver.observe(servicesGrid);
+    }
+
+    const aboutFirmSection = document.querySelector('.about-firm-section');
+    if (aboutFirmSection) {
+        const aboutObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    aboutObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.22 });
+        aboutObserver.observe(aboutFirmSection);
+    }
+
+    const approachSection = document.querySelector('.why-choose-us-section');
+    if (approachSection) {
+        const approachObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    approachObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        approachObserver.observe(approachSection);
     }
 
     // ---------------------------------------------------------
@@ -427,6 +537,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderServiceDetail() {
     const root = document.getElementById('service-detail-root');
     if (!root) return;
+    const rootPrefix = getRootPrefix();
+    const servicesPrefix = getServicesPrefix();
 
     const urlParams = new URLSearchParams(window.location.search);
     // Robust fallback: Check URL param first, then check sessionStorage (in case URL is stripped)
@@ -481,7 +593,7 @@ function renderServiceDetail() {
     root.innerHTML = `
         <div class="sd-hero-wrapper">
             <div class="sd-container" style="padding-bottom: 2rem;">
-                <a href="services.html" class="sd-back-link">
+                <a href="${servicesPrefix}services.html" class="sd-back-link">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                     Back to All Services
                 </a>
@@ -535,7 +647,7 @@ function renderServiceDetail() {
                     <div class="sd-header-icon bg-blue-main">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="16 10 11 15 8 12"></polyline></svg>
                     </div>
-                    <h2>Key Features</h2>
+                    <h2 class="global-heading" style="font-size: 2.2rem; margin:0;">Key Features</h2>
                 </div>
                 <div class="sd-features-grid">
                     ${detailedData.keyFeatures.map(feature => `
@@ -552,7 +664,7 @@ function renderServiceDetail() {
                     <div class="sd-header-icon bg-green-main">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                     </div>
-                    <h2>Benefits You'll Receive</h2>
+                    <h2 class="global-heading" style="font-size: 2.2rem; margin:0;">Benefits You'll Receive</h2>
                 </div>
                 <div class="sd-benefits-list">
                     ${detailedData.benefits.map(benefit => `
@@ -570,7 +682,7 @@ function renderServiceDetail() {
                         <div class="sd-header-icon bg-blue-main">
                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                         </div>
-                        <h2>Perfect For</h2>
+                        <h2 class="global-heading" style="font-size: 2rem; margin:0;">Perfect For</h2>
                     </div>
                     <div class="sd-compact-list">
                         ${detailedData.perfectFor.map(item => `
@@ -587,7 +699,7 @@ function renderServiceDetail() {
                         <div class="sd-header-icon bg-purple-main">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                         </div>
-                        <h2>What You Get</h2>
+                        <h2 class="global-heading" style="font-size: 2rem; margin:0;">What You Get</h2>
                     </div>
                     <div class="sd-compact-list">
                         ${detailedData.whatYouGet.map(item => `
@@ -601,9 +713,9 @@ function renderServiceDetail() {
             </div>
 
             <div class="sd-cta-banner">
-                <h2 style="color: white; font-size: 2.2rem; margin-bottom: 1rem;">Ready to optimize your compliance?</h2>
-                <p style="color: rgba(255,255,255,0.9); font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem;">Connect with our experts today for a tailored roadmap.</p>
-                <a href="index.html#get-in-touch" class="sd-primary-btn">
+                <h2 class="global-heading-light" style="font-size: 2.2rem; margin-bottom: 1rem;">Ready to optimize your compliance?</h2>
+                <p class="global-body-light" style="max-width: 600px; margin: 0 auto 2rem;">Connect with our experts today for a tailored roadmap.</p>
+                <a href="${rootPrefix}index.html#get-in-touch" class="sd-primary-btn">
                     Get Started with SKPM
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
@@ -654,10 +766,12 @@ function renderAboutPage() {
             <div class="container">
                 <div class="story-grid">
                     <div class="story-content">
-                        <span class="hero-badge">${story.badge}</span>
-                        <h2>${story.title}</h2>
-                        <p>${story.description1}</p>
-                        <p>${story.description2}</p>
+                        <div style="margin-bottom: 1rem;">
+                            <span class="hero-badge">${story.badge}</span>
+                        </div>
+                        <h2 class="global-heading">${story.title}</h2>
+                        <p class="global-body">${story.description1}</p>
+                        <p class="global-body">${story.description2}</p>
                         
                         <ul class="story-check-list">
                             ${story.checkmarks.map(check => `
@@ -672,17 +786,7 @@ function renderAboutPage() {
                         </ul>
                     </div>
                     <div class="story-image-box">
-                        <img src="${story.image}" alt="Work space meeting">
-                        
-                        <div class="story-float-card">
-                            <div style="display: flex; gap: 4px;">
-                                ${Array(5).fill('<svg width="18" height="18" fill="#00C2FF" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>').join('')}
-                            </div>
-                            <div>
-                                <strong style="display: block; font-size: 1.1rem; color: #0F172A;">${story.partnersCard.title}</strong>
-                                <span style="font-size: 0.85rem; color: #64748B;">${story.partnersCard.subtitle}</span>
-                            </div>
-                        </div>
+                        <img src="${resolveAssetPath(story.image)}" alt="Work space meeting">
                     </div>
                 </div>
             </div>
@@ -690,10 +794,12 @@ function renderAboutPage() {
 
         <section class="foundation-section">
             <div class="container">
-                <div class="text-center">
-                    <span class="hero-badge">${foundation.badge}</span>
-                    <h2 style="font-size: 3.5rem; font-weight: 800; color: #0F172A; margin: 1.5rem 0;">${foundation.title.replace('Values', '<span class="title-gradient">Values</span>')}</h2>
-                    <p style="font-size: 1.1rem; color: #64748B; max-width: 700px; margin: 0 auto;">${foundation.subtitle}</p>
+                <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="margin-bottom: 1rem;">
+                        <span class="hero-badge">${foundation.badge}</span>
+                    </div>
+                    <h2 class="global-heading" style="margin-bottom: 1.5rem;">${foundation.title}</h2>
+                    <p class="global-body" style="max-width: 700px; margin: 0 auto;">${foundation.subtitle}</p>
                 </div>
 
                 <div class="foundation-grid">
@@ -702,8 +808,8 @@ function renderAboutPage() {
                             <div class="vm-icon-box">
                                 ${aboutIcons[card.icon]}
                             </div>
-                            <h3>${card.title}</h3>
-                            <p style="color: #475569; line-height: 1.7; font-size: 1.05rem;">${card.text}</p>
+                            <h3 class="global-heading" style="font-size: 1.8rem;">${card.title}</h3>
+                            <p class="global-body">${card.text}</p>
                         </div>
                     `).join('')}
                 </div>
@@ -711,26 +817,40 @@ function renderAboutPage() {
         </section>
 
         <section class="leadership-section">
-            <div class="container">
-                <div class="text-center">
-                    <span class="hero-badge">${leadership.badge}</span>
-                    <h2 style="font-size: 3.5rem; font-weight: 800; color: #0F172A; margin: 1.5rem 0;">Meet the <span class="title-gradient">Experts</span></h2>
-                    <p style="font-size: 1.1rem; color: #64748B; max-width: 700px; margin: 0 auto;">${leadership.subtitle}</p>
+            <div class="container" style="max-width: 1200px;">
+                <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <span class="hero-badge">${leadership.badge}</span>
+                    </div>
+                    <h2 class="global-heading" style="margin-bottom: 0.5rem;">Meet the Experts</h2>
                 </div>
 
-                <div class="partner-card-grid">
-                    ${leadership.partners.map(partner => `
-                        <div class="partner-card">
-                            <div class="partner-img-wrapper">
-                                <img src="${partner.image}" alt="${partner.name}">
-                            </div>
-                            <div class="partner-info">
-                                <h3>${partner.name}</h3>
-                                <p class="designation">${partner.designation}</p>
-                                <p style="font-size: 0.9rem; color: #64748B; margin-top: 1rem; line-height: 1.5;">${partner.bio}</p>
-                            </div>
-                        </div>
-                    `).join('')}
+                <div class="team-grid" style="margin-top: 1rem;">
+                    ${siteConfig.teamMembers.map(member => {
+                        let socialHtml = '<div class="member-socials">';
+                        if (member.linkedin) {
+                            socialHtml += '<a href="' + member.linkedin + '" target="_blank" class="member-social-btn linkedin" aria-label="LinkedIn">' +
+                                          '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>' +
+                                          '</a>';
+                        }
+                        if (member.instagram) {
+                            socialHtml += '<a href="' + member.instagram + '" target="_blank" class="member-social-btn instagram" aria-label="Instagram">' +
+                                          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>' +
+                                          '</a>';
+                        }
+                        socialHtml += '</div>';
+
+                        return '<div class="team-card">' +
+                               '<div class="team-img-wrapper">' +
+                               '<img src="' + resolveAssetPath(member.imagePath) + '" alt="' + member.name + '">' +
+                               '</div>' +
+                               '<div class="team-info">' +
+                               '<h3>' + member.name + '</h3>' +
+                               '<p class="designation">' + member.qualifications + '</p>' +
+                               socialHtml +
+                               '</div>' +
+                               '</div>';
+                    }).join('')}
                 </div>
             </div>
         </section>

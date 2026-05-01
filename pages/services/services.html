@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | SKPM & Associates LLP</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+    <script src="../../config.js"></script>
+    <script src="../../services_config.js"></script>
+</head>
+
+<body>
+
+    <!-- Navigation (ID for JS toggle) -->
+    <nav id="navbar" class="nav-light-bg">
+        <div class="nav-container">
+            <a href="../../index.html" class="logo">
+                <img src="../../logo/s-k-p-m-associates-llp-chartered-accountants-1.png" alt="SKPM logo" id="nav-logo"
+                    class="logo-large">
+            </a>
+            <div class="mobile-toggle" id="mobile-menu-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" style="width: 32px; height: 32px;">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li class="mobile-nav-header">
+                    <img src="../../logo/s-k-p-m-associates-llp-chartered-accountants-1.png" alt="SKPM Logo">
+                    <div class="mobile-close" id="mobile-close-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </div>
+                </li>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="../about/about.html">About Us</a></li>
+                <li><a href="../careers/careers.html">Careers</a></li>
+                <li class="nav-cta-wrapper"><a href="../../index.html#get-in-touch" class="nav-cta-btn">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Services Hero Section -->
+    <section class="services-hero">
+        <div class="container" style="width:100%;">
+            <div style="text-align:center;">
+                <span class="hero-badge">Comprehensive Financial Solutions</span>
+                <h1 style="font-family: var(--body-font); font-size: 3.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; color: #0F172A; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    Expert Services for <span class="title-gradient">Your Success</span>
+                </h1>
+                <p style="font-size: 1.1rem; color: #475569; max-width: 700px; line-height: 1.7; margin: 0 auto 2.5rem auto;">
+                    Tailored financial strategies and compliance solutions designed to secure your growth and optimize your global operations.
+                </p>
+
+                <!-- Stat Cards — mirrors About Us hero -->
+                <div class="about-hero-stats">
+                    <div class="about-stat-card">
+                        <span class="num">500+</span>
+                        <span class="lab">Clients Served</span>
+                    </div>
+                    <div class="about-stat-card">
+                        <span class="num">15+</span>
+                        <span class="lab">Years of Excellence</span>
+                    </div>
+                    <div class="about-stat-card">
+                        <span class="num">98%</span>
+                        <span class="lab">Client Satisfaction</span>
+                    </div>
+                    <div class="about-stat-card">
+                        <span class="num">12+</span>
+                        <span class="lab">Service Verticals</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Solutions Section -->
+    <section class="section-padding" style="background-color: #FFFFFF; padding-top: 3rem; padding-bottom: 3rem;">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 2rem;">
+                <h2 class="global-heading">Choose Your Solution</h2>
+                <p class="global-body">Select the specialized service that matches your business stage and goals.</p>
+            </div>
+
+            <div class="service-feature-grid" id="full-services-list">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- CTA Banner -->
+            <div class="services-cta-banner">
+                <h2 class="global-heading-light" style="margin-bottom: 0.5rem;">Not Sure Which Service You Need?</h2>
+                <p class="global-body-light" style="margin-bottom: 2rem;">Our experts are here to help you navigate your
+                    financial journey and find the perfect path for your business growth.</p>
+                <a href="../../index.html#get-in-touch" class="btn-white">
+                    Schedule a Free Consultation
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Part (Kept consistent) -->
+    <div id="footer-placeholder"></div>
+
+
+    <script src="../../script.js"></script>
+</body>
+
+</html>

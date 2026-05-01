@@ -7,10 +7,10 @@ const aboutConfig = {
     hero: {
         badge: "Who We Are",
         title: "Trusted Partners in Your Financial Journey",
-        description: "A full-service chartered accountancy firm combining decades of expertise with a modern, client-centric approach to drive your financial success.",
+        description: "A dedicated chartered accountancy firm combining years of proven expertise with a modern, client-centric approach to drive your financial success.",
         stats: [
-            { number: "15+", label: "Years of Excellence" },
-            { number: "500+", label: "Clients Served" },
+            { number: "7+", label: "Years of Excellence" },
+            { number: "250+", label: "Clients Served" },
             { number: "10", label: "Core Service Areas" },
             { number: "98%", label: "Client Satisfaction" }
         ]
@@ -18,20 +18,19 @@ const aboutConfig = {
     story: {
         badge: "Our Story",
         title: "Built on Trust, Driven by Expertise",
-        description1: "Founded over 15 years ago, our firm began with a simple belief — that every business, regardless of size, deserves access to world-class financial advice. From a small practice, we have grown into a comprehensive CA firm serving 500+ clients across industries.",
-        description2: "Today, our four founding partners bring together deep specialisations in taxation, audit, financial advisory, and corporate governance — making us a true one-stop financial partner for businesses, families and NRIs alike.",
+        description1: "Founded over 7 years ago, we began with a simple belief: every business deserves access to world-class financial advice. Today, we serve 250+ clients across industries.",
+        description2: "Our founding partners bring together deep specialisations in taxation, audit, and advisory, making us a true one-stop financial partner for businesses and families alike.",
         checkmarks: [
             "Certified & Experienced Chartered Accountants",
             "Personalised Solutions for Every Client",
             "End-to-End Financial Services Under One Roof",
-            "Commitment to Timeliness & Accuracy",
             "Transparent Pricing, No Hidden Charges"
         ],
         partnersCard: {
             title: "4 Expert Partners",
             subtitle: "Serving clients since 2009"
         },
-        image: "about_story_meeting_clean.png"
+        image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80"
     },
     foundation: {
         badge: "Our Foundation",

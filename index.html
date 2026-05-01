@@ -26,7 +26,8 @@
                     id="nav-logo" class="logo-large">
             </a>
             <div class="mobile-toggle" id="mobile-menu-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" style="width: 32px; height: 32px;">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -36,13 +37,16 @@
                 <li class="mobile-nav-header">
                     <img src="logo/s-k-p-m-associates-llp-chartered-accountants-1.png" alt="SKPM Logo">
                     <div class="mobile-close" id="mobile-close-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
                     </div>
                 </li>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="careers.html">Careers</a></li>
+                <li><a href="pages/services/services.html">Services</a></li>
+                <li><a href="pages/about/about.html">About Us</a></li>
+                <li><a href="pages/careers/careers.html">Careers</a></li>
                 <li class="nav-cta-wrapper"><a href="#get-in-touch" class="nav-cta-btn">Contact Us</a></li>
             </ul>
         </div>
@@ -90,15 +94,13 @@
     <section id="services" class="section-padding">
         <div class="container">
             <div class="text-center" style="margin-bottom: 1.5rem;">
-                <h2
-                    style="display: inline-block; background-color: #0d47a1; color: white; padding: 1rem 3rem; font-size: 2.5rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                    Our Core Services</h2>
+                <h2 class="global-heading">Our Core Services</h2>
             </div>
             <div class="colorful-cards-grid" id="home-services-grid">
                 <!-- Cards injected here -->
             </div>
             <div class="text-center" style="margin-top: 2rem;">
-                <a href="services.html" class="btn btn-primary">Discover All Services</a>
+                <a href="pages/services/services.html" class="btn btn-primary">Discover All Services</a>
             </div>
         </div>
     </section>
@@ -109,13 +111,11 @@
             <div class="about-grid">
                 <!-- Left Column -->
                 <div class="about-content">
-                    <h2
-                        style="font-size: 2.8rem; margin-bottom: 1.5rem; color: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 700;">
-                        About Our Firm</h2>
-                    <p style="color: #CBD5E1; font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.8;">With over 15
-                        years of excellence in chartered accountancy, we've built a reputation for delivering
+                    <h2 class="global-heading-light">About Our Firm</h2>
+                    <p class="global-body-light">With 7+
+                        years of experience in chartered accountancy, we've built a reputation for delivering
                         exceptional financial services that drive business success.</p>
-                    <p style="color: #CBD5E1; font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.8;">Our team of
+                    <p style="color: #FFFFFF; font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.8;">Our team of
                         qualified professionals combines deep industry knowledge with cutting-edge technology to provide
                         innovative solutions tailored to your unique needs.</p>
 
@@ -208,9 +208,7 @@
     <section id="industries" class="industries-section">
         <div class="container">
             <div class="text-center" style="margin-bottom: 0;">
-                <h2
-                    style="display: inline-block; background-color: #0d47a1; color: white; padding: 1rem 3rem; font-size: 2.5rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                    Industries We Serve</h2>
+                <h2 class="global-heading">Industries We Serve</h2>
             </div>
 
             <div class="honeycomb-grid" id="industries-grid" style="margin-top: -15px;">
@@ -222,10 +220,11 @@
 
     <!-- (5) Team Section -->
     <section id="about" class="team-section">
-        <div class="container">
-            <h2 class="text-center" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Our Leadership Team</h2>
+        <div class="container" style="max-width: 1200px;">
+            <h2 class="global-heading text-center" style="margin-bottom: 0.5rem; display: block;">Our Leadership Team
+            </h2>
             <!-- Dynamically populated via JS config -->
-            <div class="team-grid" id="team-grid">
+            <div class="team-grid" id="team-grid" style="margin-top: 1rem;">
                 <!-- Team cards injected here -->
             </div>
         </div>
@@ -235,9 +234,7 @@
     <section class="radial-navy-bg why-choose-us-section" style="padding: 3rem 0;">
         <div class="container">
             <div class="text-center" style="margin-bottom: 2rem;">
-                <h2
-                    style="font-size: 2.8rem; margin-bottom: 0.8rem; color: #FFFFFF; font-weight: 700; font-family: 'Inter', sans-serif;">
-                    Our Approach</h2>
+                <h2 class="global-heading-light">Our Approach</h2>
                 <h4 style="color: #CBD5E1; font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 400;">
                     Experience the difference of working with true financial partners</h4>
             </div>
@@ -311,9 +308,7 @@
     <section class="how-we-work"
         style="background-color: #FAFAFA; background-image: radial-gradient(#E2E8F0 1px, transparent 1px); background-size: 30px 30px;">
         <div class="container text-center" style="position: relative; z-index: 2;">
-            <h2 class="text-center"
-                style="font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; font-family: 'Inter', sans-serif; color: #0d47a1;">
-                How We Work</h2>
+            <h2 class="global-heading text-center">How We Work</h2>
             <h4
                 style="color: #475569; font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 4rem;">
                 A systematic approach to delivering exceptional results</h4>
@@ -385,9 +380,7 @@
 
     <!-- Clients Ribbon -->
     <section class="clients-ribbon">
-        <h2 class="text-center"
-            style="font-size: 2.8rem; margin-bottom: 3rem; color: #0F172A; font-weight: 700; font-family: 'Inter', sans-serif;">
-            Businesses We Have Transformed</h2>
+        <h2 class="global-heading text-center">Businesses We Have Transformed</h2>
         <div class="scroller" data-direction="left" data-speed="fast">
             <div class="scroller__inner">
                 <!-- Original set -->
@@ -395,12 +388,14 @@
                 <div class="client-logo-box"><img src="client_logos/addmatrix.webp" alt="Addmatrix"></div>
                 <div class="client-logo-box"><img src="client_logos/alufin.png" alt="Alufin"></div>
                 <div class="client-logo-box"><img src="client_logos/prop_partners.png" alt="Prop Partners"></div>
-                <div class="client-logo-box" style="background-color: #0F172A; border-radius: 8px; padding: 10px;"><img src="client_logos/lunoom.png?v=blackbg3" alt="LUNOoOM"></div>
+                <div class="client-logo-box" style="background-color: #0F172A; border-radius: 8px; padding: 10px;"><img
+                        src="client_logos/lunoom.png?v=blackbg3" alt="LUNOoOM"></div>
                 <div class="client-logo-box"><img src="client_logos/mfg-e1717005199605.jpg" alt="MFG"></div>
                 <div class="client-logo-box"><img src="client_logos/mv.png" alt="MV"></div>
                 <div class="client-logo-box"><img src="client_logos/prism-foundation.png" alt="Prism Foundation"></div>
                 <div class="client-logo-box"><img src="client_logos/ramrajya.avif" alt="Ramrajya"></div>
-                <div class="client-logo-box" style="background-color: #0F172A; border-radius: 8px; padding: 10px;"><img src="client_logos/redxcel.png?v=blackbg3" alt="Redxcel"></div>
+                <div class="client-logo-box" style="background-color: #0F172A; border-radius: 8px; padding: 10px;"><img
+                        src="client_logos/redxcel.png?v=blackbg3" alt="Redxcel"></div>
                 <div class="client-logo-box"><img src="client_logos/rut3.png" alt="Rut3"></div>
                 <div class="client-logo-box"><img src="client_logos/sagarmathalogotranspernt.png" alt="Sagarmatha">
                 </div>
@@ -420,12 +415,14 @@
                 <div class="client-logo-box"><img src="client_logos/addmatrix.webp" alt="Addmatrix"></div>
                 <div class="client-logo-box"><img src="client_logos/alufin.png" alt="Alufin"></div>
                 <div class="client-logo-box"><img src="client_logos/prop_partners.png" alt="Prop Partners"></div>
-                <div class="client-logo-box" style="background-color: #0F172A; border-radius: 8px; padding: 10px;"><img src="client_logos/lunoom.png?v=blackbg3" alt="LUNOoOM"></div>
+                <div class="client-logo-box" style="background-color: #0F172A; border-radius: 8px; padding: 10px;"><img
+                        src="client_logos/lunoom.png?v=blackbg3" alt="LUNOoOM"></div>
                 <div class="client-logo-box"><img src="client_logos/mfg-e1717005199605.jpg" alt="MFG"></div>
                 <div class="client-logo-box"><img src="client_logos/mv.png" alt="MV"></div>
                 <div class="client-logo-box"><img src="client_logos/prism-foundation.png" alt="Prism Foundation"></div>
                 <div class="client-logo-box"><img src="client_logos/ramrajya.avif" alt="Ramrajya"></div>
-                <div class="client-logo-box" style="background-color: #0F172A; border-radius: 8px; padding: 10px;"><img src="client_logos/redxcel.png?v=blackbg3" alt="Redxcel"></div>
+                <div class="client-logo-box" style="background-color: #0F172A; border-radius: 8px; padding: 10px;"><img
+                        src="client_logos/redxcel.png?v=blackbg3" alt="Redxcel"></div>
                 <div class="client-logo-box"><img src="client_logos/rut3.png" alt="Rut3"></div>
                 <div class="client-logo-box"><img src="client_logos/sagarmathalogotranspernt.png" alt="Sagarmatha">
                 </div>
@@ -447,9 +444,7 @@
     <section id="get-in-touch" style="padding: 3rem 0; background-color: #FFFFFF;">
         <div class="container">
             <div class="text-center" style="margin-bottom: 2rem;">
-                <h2
-                    style="font-size: 3.5rem; margin-bottom: 1rem; color: #0F172A; font-weight: 800; font-family: 'Inter', sans-serif;">
-                    Get In Touch</h2>
+                <h2 class="global-heading text-center">Get In Touch</h2>
             </div>
 
             <div class="contact-grid">
@@ -460,7 +455,8 @@
                         Ready to take your business to the next level? <span style="color: #2563EB;">Let's discuss how
                             we can help.</span></h3>
 
-                    <p style="color: #64748B; font-size: 1rem; line-height: 1.6; max-width: 450px; margin-bottom: 1rem;">
+                    <p
+                        style="color: #64748B; font-size: 1rem; line-height: 1.6; max-width: 450px; margin-bottom: 1rem;">
                         Fill out the form and our team will get back to you within 24 hours to discuss your specific
                         requirements.
                     </p>
@@ -472,8 +468,12 @@
 
                 <!-- Right Column (Form) -->
                 <div class="contact-form-col">
-                    <form id="contact-form" action="https://script.google.com/macros/s/AKfycbz4oesNW8A15ux6wwUfPPKA32WSAfKq6EdCJlLxJZCYMZM-R_22aWpAPCr3_EbBuiSwAQ/exec" method="POST">
-                        <div id="form-message" style="display: none; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600;"></div>
+                    <form id="contact-form"
+                        action="https://script.google.com/macros/s/AKfycbz4oesNW8A15ux6wwUfPPKA32WSAfKq6EdCJlLxJZCYMZM-R_22aWpAPCr3_EbBuiSwAQ/exec"
+                        method="POST">
+                        <div id="form-message"
+                            style="display: none; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600;">
+                        </div>
 
                         <div class="form-group">
                             <label>Full Name <span style="color: #ef4444;">*</span></label>
@@ -485,7 +485,8 @@
                         </div>
                         <div class="form-group">
                             <label>Phone Number <span style="color: #ef4444;">*</span></label>
-                            <input type="tel" name="phone" class="form-control" placeholder="" required minlength="10" title="Please enter a valid phone number (at least 10 digits)">
+                            <input type="tel" name="phone" class="form-control" placeholder="" required minlength="10"
+                                title="Please enter a valid phone number (at least 10 digits)">
                         </div>
                         <div class="form-group">
                             <label>Message <span style="color: #ef4444;">*</span></label>
@@ -505,49 +506,8 @@
     </section>
 
     <!-- Footer - Figma 4-Column Layout -->
-    <footer id="contact" class="footer">
-        <div class="container footer-grid-clean">
-            <div class="footer-col">
-                <img src="logo/s-k-p-m-associates-llp-chartered-accountants-1.png" alt="SKPM logo"
-                    class="footer-logo">
-                <p style="color: #ccc; font-size:0.9rem;">Your trusted partner for comprehensive financial, taxation,
-                    and corporate governance solutions globally.</p>
-                <div class="social-links dark-socials" id="footer-social-links" style="margin-top: 1.5rem;">
-                    <!-- Populated via JS Config -->
-                </div>
-            </div>
+    <div id="footer-placeholder"></div>
 
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="index.html#home">Home</a></li>
-                    <li><a href="about.html">About Firm</a></li>
-                    <li><a href="index.html#industries">Industries</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Useful Links</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="https://www.incometaxindia.gov.in/" target="_blank">Income Tax Dept.</a></li>
-                    <li><a href="https://www.tin-nsdl.com/" target="_blank">E-Tax Information Network</a></li>
-                    <li><a href="https://www.mca.gov.in/content/mca/global/en/home.html" target="_blank">Ministry of Corporate Affairs</a></li>
-                    <li><a href="https://epfindia.com/site_en/" target="_blank">Employees Provident Fund</a></li>
-                    <li><a href="https://www.cbic.gov.in/" target="_blank">Central Board of Excise and Custom</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col contact-col">
-                <h4>Contact Us</h4>
-                <ul id="footer-contact-info" style="list-style: none; padding: 0;">
-                    <!-- Populated via JS -->
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 SKPM & Associates LLP. All rights reserved.</p>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>

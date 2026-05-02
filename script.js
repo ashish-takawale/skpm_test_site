@@ -850,18 +850,9 @@ function renderAboutPage() {
     root.innerHTML = `
         <section class="about-hero">
             <div class="container">
-                <span class="hero-badge">${hero.badge}</span>
                 <h1>${hero.title.replace('Financial Journey', '<br><span class="title-gradient">Financial Journey</span>')}</h1>
                 <p>${hero.description}</p>
                 
-                <div class="about-hero-stats">
-                    ${hero.stats.map(stat => `
-                        <div class="about-stat-card">
-                            <span class="num">${stat.number}</span>
-                            <span class="lab">${stat.label}</span>
-                        </div>
-                    `).join('')}
-                </div>
             </div>
         </section>
 
@@ -869,7 +860,7 @@ function renderAboutPage() {
             <div class="container">
                 <div class="story-grid">
                     <div class="story-content">
-                        <div style="margin-bottom: 1rem;">
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <span class="hero-badge">${story.badge}</span>
                         </div>
                         <h2 class="global-heading">${story.title}</h2>

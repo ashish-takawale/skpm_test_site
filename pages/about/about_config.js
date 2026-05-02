@@ -30,7 +30,7 @@ const aboutConfig = {
             title: "4 Expert Partners",
             subtitle: "Serving clients since 2009"
         },
-        image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80"
+        image: "../../images/about/leaf.jpeg"
     },
     foundation: {
         badge: "Our Foundation",

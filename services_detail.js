@@ -15,7 +15,8 @@ const servicesDetail = {
         "Identification of operational inefficiencies and control gaps",
         "Improved internal controls and risk management",
         "Compliance with regulatory and statutory requirements",
-        "Valuable management letters with actionable insights"
+        "Valuable management letters with actionable insights",
+        "Early fraud detection and prevention before it escalates into financial loss"
       ],
       "perfectFor": [
         "Companies required by law to conduct statutory audits",
@@ -47,7 +48,8 @@ const servicesDetail = {
         "Minimised tax liability through legitimate planning",
         "Reduced scrutiny risk with accurate and complete filings",
         "Expert handling of notices without client involvement",
-        "Commercially intelligent tax structuring for savings"
+        "Commercially intelligent tax structuring for savings",
+        "Clean compliance history strengthening credibility with lenders and investors"
       ],
       "perfectFor": [
         "Individuals with complex multi-source income",
@@ -79,7 +81,8 @@ const servicesDetail = {
         "Data-driven decision-making through financial models",
         "Improved liquidity by optimising working capital cycle",
         "Credible valuations that withstand investor scrutiny",
-        "Conflict-free advisory with no product-selling bias"
+        "Conflict-free advisory with no product-selling bias",
+        "Scenario-based planning enabling confident responses to market uncertainties"
       ],
       "perfectFor": [
         "Businesses applying for bank loans or credit facilities",
@@ -111,7 +114,8 @@ const servicesDetail = {
         "Reduced TDS through lower deduction certificates",
         "Tax savings via DTAA treaty benefits and exemptions",
         "Smooth repatriation of funds with correct documentation",
-        "Accessible advisory across time zones via digital channels"
+        "Accessible advisory across time zones via digital channels",
+        "Complete representation before Indian tax authorities without personal involvement"
       ],
       "perfectFor": [
         "NRIs with rental income, capital gains, or bank interest in India",
@@ -143,7 +147,8 @@ const servicesDetail = {
         "Reduced compliance burden on internal management teams",
         "Accurate statutory records that withstand regulatory scrutiny",
         "Integrated legal, secretarial, and financial governance solution",
-        "Proactive compliance alerts preventing last-minute surprises"
+        "Proactive compliance alerts preventing last-minute surprises",
+        "Governance-ready records that accelerate investor and lender due diligence"
       ],
       "perfectFor": [
         "Private limited companies with ongoing ROC obligations",
@@ -175,7 +180,8 @@ const servicesDetail = {
         "Regulatory compliance for FEMA, RBI, and income tax requirements",
         "Defensible reports that withstand scrutiny from auditors and authorities",
         "Objective valuation with no conflict of interest",
-        "Complete documentation for all reporting and disclosure purposes"
+        "Complete documentation for all reporting and disclosure purposes",
+        "Timely valuations preventing pricing disputes in transactions and share transfers"
       ],
       "perfectFor": [
         "Companies raising equity or transferring shares",
@@ -207,7 +213,8 @@ const servicesDetail = {
         "Reduced audit complications with well-documented positions",
         "Regulatory compliance with all mandatory Ind AS disclosures",
         "Lender-friendly Ind AS statements that facilitate credit decisions",
-        "Ongoing support adapting to standard amendments and new transactions"
+        "Ongoing support adapting to standard amendments and new transactions",
+        "Global comparability attracting foreign investors and multinational partnerships"
       ],
       "perfectFor": [
         "Companies mandated to adopt Ind AS by net worth threshold",
@@ -239,7 +246,8 @@ const servicesDetail = {
         "Real-time financial visibility for faster management decisions",
         "Reduced finance risk through structured controls and processes",
         "Integrated compliance management across tax, audit, and reporting",
-        "Scalable financial leadership aligned to business growth stage"
+        "Scalable financial leadership aligned to business growth stage",
+        "Investor-grade financial discipline making your business funding-ready at all times"
       ],
       "perfectFor": [
         "SMEs and growing businesses without a full-time CFO",
@@ -271,7 +279,8 @@ const servicesDetail = {
         "Minimised tax outflow on wealth transfer across generations",
         "Legal certainty through properly documented succession arrangements",
         "Business continuity preserved through phased transition planning",
-        "Personalised plans that reflect family values and dynamics"
+        "Personalised plans that reflect family values and dynamics",
+        "Resilient transition structures that hold firm even during unforeseen circumstances"
       ],
       "perfectFor": [
         "Business families planning intergenerational ownership transfer",
@@ -303,7 +312,8 @@ const servicesDetail = {
         "Enhanced homebuyer confidence through transparent disclosures",
         "Timely filings ensuring uninterrupted project registration",
         "Professional CA certification meeting all RERA requirements",
-        "Expert support reducing promoter's compliance burden"
+        "Expert support reducing promoter's compliance burden",
+        "Strong compliance reputation sustaining buyer confidence and sales momentumm"
       ],
       "perfectFor": [
         "Real estate developers launching new residential or commercial projects",

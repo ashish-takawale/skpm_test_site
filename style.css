@@ -2110,14 +2110,22 @@ nav.navbar-scrolled.nav-dark-bg .nav-links a {
    Services Page Components
    ======================================= */
 .services-hero {
-    background: #0c1f4a;
-    padding: 5.5rem 0 3rem 0;
+    background: url('../../images/services/hero_section.jpeg') center center / cover no-repeat;
+    padding: 5.5rem 0 7rem 0;
     min-height: 100dvh;
     display: flex;
     align-items: center;
-    text-align: left;
+    text-align: center;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+}
+
+.services-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 18, 48, 0.40);
+    z-index: 0;
 }
 
 .services-hero .container {
@@ -2144,9 +2152,10 @@ nav.navbar-scrolled.nav-dark-bg .nav-links a {
 }
 
 .title-gradient {
-    background: linear-gradient(90deg, #2563EB 0%, #00C2FF 100%);
+    background: linear-gradient(135deg, #00D4FF, #38BDF8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero-chips {
@@ -3706,7 +3715,7 @@ nav.navbar-scrolled .mobile-toggle {
    About Us Page Components
    ======================================= */
 .about-hero {
-    background: linear-gradient(135deg, #BFDBFE 0%, #EFF6FF 100%);
+    background: linear-gradient(135deg, rgb(20, 45, 110) 0%, rgb(12, 28, 72) 50%, rgb(20, 45, 110) 100%);
     padding: 5.5rem 0 3rem 0;
     min-height: 100dvh;
     display: flex;
@@ -3716,41 +3725,21 @@ nav.navbar-scrolled .mobile-toggle {
     overflow: hidden;
 }
 
-@keyframes about-hero-grid-drift {
-    0%   { transform: rotate(20deg) translate(0, 0); }
-    25%  { transform: rotate(20deg) translate(12px, -10px); }
-    50%  { transform: rotate(20deg) translate(22px, 6px); }
-    75%  { transform: rotate(20deg) translate(6px, 16px); }
-    100% { transform: rotate(20deg) translate(0, 0); }
-}
-
+/* Diagonal white diamond/rhombus grid */
 .about-hero::before {
     content: "";
     position: absolute;
-    inset: -60px;
-    background-image:
-        linear-gradient(rgba(37, 99, 235, 0.22) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(37, 99, 235, 0.22) 1px, transparent 1px);
-    background-size: 28px 28px;
-    animation: about-hero-grid-drift 7s ease-in-out infinite;
-    mask-image: radial-gradient(ellipse 75% 65% at 50% 40%, black 30%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 40%, black 30%, transparent 75%);
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M 20 0 L 40 20 L 20 40 L 0 20 Z' fill='none' stroke='rgba(255,255,255,0.18)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 0%, black 30%, transparent 120%);
+    -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 0%, black 30%, transparent 120%);
     pointer-events: none;
     z-index: 0;
 }
 
 .about-hero::after {
-    content: "";
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(147, 197, 253, 0.08) 45%, transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
+    display: none;
 }
 
 .about-hero .container {
@@ -3760,25 +3749,29 @@ nav.navbar-scrolled .mobile-toggle {
 
 .about-hero .hero-badge {
     margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .about-hero h1 {
-    font-size: 3.8rem;
+    font-size: 5.2rem;
     font-weight: 800;
-    color: #0F172A;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-    max-width: 1000px;
+    color: #FFFFFF;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    max-width: 980px;
     margin-left: auto;
     margin-right: auto;
+    white-space: nowrap;
 }
 
 .about-hero p {
-    font-size: 1.1rem;
-    color: #475569;
-    line-height: 1.7;
-    max-width: 750px;
-    margin: 0 auto 2rem auto;
+    font-size: clamp(0.95rem, 2vw, 1.35rem);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
+    max-width: 640px;
+    margin: 0 auto;
 }
 
 .services-hero .hero-badge {
@@ -3788,23 +3781,27 @@ nav.navbar-scrolled .mobile-toggle {
 }
 
 .services-hero .about-hero-stats {
-    margin: 0;
+    margin: 0 auto;
+    justify-content: center;
+    transform: translateY(3.5rem);
+    position: relative;
+    z-index: 2;
 }
 
 .services-hero .about-stat-card {
-    background: rgba(255, 255, 255, 0.08); /* ← adjust opacity here (0.0 = fully transparent, 1.0 = opaque) */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    background: #B8CFF5;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
 }
 
 .services-hero .about-stat-card .num {
-    color: #93C5FD;
+    color: #0F172A;
 }
 
 .services-hero .about-stat-card .lab {
-    color: rgba(255, 255, 255, 0.65);
+    color: #334155;
 }
 
 .about-hero-stats {
@@ -3855,7 +3852,7 @@ nav.navbar-scrolled .mobile-toggle {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: 3rem;
-    align-items: center;
+    align-items: start;
 }
 
 .story-content h2 {
@@ -3899,6 +3896,7 @@ nav.navbar-scrolled .mobile-toggle {
     position: relative;
     border-radius: 30px;
     overflow: hidden;
+    margin-top: 5rem;
 }
 
 .story-image-box img {

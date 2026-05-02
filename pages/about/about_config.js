@@ -87,7 +87,7 @@ const aboutConfig = {
     leadership: {
         badge: "Leadership Team",
         title: "Meet the Experts",
-        subtitle: "Four partners, one shared purpose - delivering excellence in every engagement.",
+        subtitle: "",
         partners: [
             {
                 name: "CA Sarthak Shridhar Kothavale",
@@ -136,7 +136,7 @@ const aboutConfig = {
             {
                 name: "CS Shalmali Jeetendra Parasnis",
                 fullName: "CS Shalmali Jeetendra Parasnis",
-                designation: "Corporate Law Expert",
+                designation: "Corporate Governance Expert",
                 bio: "CS Shalmali Jeetendra Parasnis is a qualified Company Secretary and SKPM's expert in corporate law and regulatory compliance. Known for her precision and clarity-driven communication, she has guided multiple startups and SMEs through entity structuring, company conversions, and compliance frameworks. She has facilitated seamless charge registrations in association with banks and is a trusted advisor for governance and legal documentation needs. Her approach blends technical rigor with a client-friendly style, making complex regulatory matters accessible and manageable.",
                 image: "images/shalmali.png",
                 popupImage: "images/shalmali2.png",

@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const contactHtml = `
                 <li><strong>Address:</strong> ${c.address || ''}</li>
                 <li><strong>Phone:</strong> ${c.phone || ''}</li>
+                <li><strong>Landline:</strong> ${c.landline || ''}</li>
                 <li><strong>Email:</strong> ${c.email || ''}</li>
                 ${c.mapUrl ? `<li style="margin-top:1rem;">
                     <a href="${c.mapUrl}" target="_blank" title="Open in Google Maps"
@@ -129,12 +130,74 @@ document.addEventListener("DOMContentLoaded", () => {
                 </li>` : ''}
             `;
 
+            // Inject scroll-to-top button globally
+            const scrollBtnStyle = document.createElement('style');
+            scrollBtnStyle.textContent = `
+                #scroll-to-top {
+                    position: fixed;
+                    bottom: 2rem;
+                    right: 2rem;
+                    width: 48px;
+                    height: 48px;
+                    background: #ffffff;
+                    border: none;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(12px);
+                    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, box-shadow 0.2s ease;
+                    z-index: 9999;
+                }
+                #scroll-to-top.visible {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
+                }
+                #scroll-to-top:hover {
+                    box-shadow: 0 8px 28px rgba(37,99,235,0.25);
+                    transform: translateY(-2px);
+                }
+                #scroll-to-top svg {
+                    width: 22px;
+                    height: 22px;
+                    stroke: #38BDF8;
+                    stroke-width: 2.5;
+                    fill: none;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                }
+            `;
+            document.head.appendChild(scrollBtnStyle);
+
+            const scrollBtn = document.createElement('button');
+            scrollBtn.id = 'scroll-to-top';
+            scrollBtn.setAttribute('aria-label', 'Scroll to top');
+            scrollBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>`;
+            document.body.appendChild(scrollBtn);
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollBtn.classList.add('visible');
+                } else {
+                    scrollBtn.classList.remove('visible');
+                }
+            }, { passive: true });
+
+            scrollBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
             footerPlaceholder.outerHTML = `
             <footer id="contact" class="footer">
                 <div class="container footer-grid-clean">
                     <div class="footer-col">
                         <img src="${resolveAssetPath('logo/s-k-p-m-associates-llp-chartered-accountants-1.png')}" alt="SKPM logo" class="footer-logo">
-                        <p style="color:#ccc;font-size:0.9rem;">Your trusted partner for financial, taxation, and corporate governance solutions globally.</p>
+                        <p class="footer-tagline">Your trusted partner for financial, taxation, and corporate governance solutions globally.</p>
                         <div class="social-links dark-socials" style="margin-top:1.5rem;">${socialHtml}</div>
                     </div>
                     <div class="footer-col">
@@ -142,16 +205,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         <ul style="list-style:none;padding:0;">
                             <li><a href="${rootPrefix}index.html#home">Home</a></li>
                             <li><a href="${aboutPagePath}">About Firm</a></li>
-                            <li><a href="${rootPrefix}index.html#industries">Industries</a></li>
+                            <li><a href="${rootPrefix}index.html#industries">Industries We Cater</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
                         <h4>Useful Links</h4>
                         <ul style="list-style:none;padding:0;">
                             <li><a href="https://www.incometaxindia.gov.in/" target="_blank">Income Tax Dept.</a></li>
-                            <li><a href="https://www.tin-nsdl.com/" target="_blank">E-Tax Information Network</a></li>
+                            <li><a href="https://www.gst.gov.in/" target="_blank">Goods & Services Tax</a></li>
                             <li><a href="https://www.mca.gov.in/content/mca/global/en/home.html" target="_blank">Ministry of Corporate Affairs</a></li>
-                            <li><a href="https://epfindia.com/site_en/" target="_blank">Employees Provident Fund</a></li>
+                            <li><a href="https://www.rbi.org.in/" target="_blank">Reserve Bank of India</a></li>
                             <li><a href="https://www.cbic.gov.in/" target="_blank">Central Board of Excise and Custom</a></li>
                         </ul>
                     </div>
@@ -402,7 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     quoteObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.15 });
+        }, { threshold: 0.6 });
         quoteObserver.observe(brandQuoteSection);
     }
 
@@ -715,14 +778,54 @@ function renderServiceDetail() {
             <div class="sd-cta-banner">
                 <h2 class="global-heading-light" style="font-size: 2.2rem; margin-bottom: 1rem;">Ready to optimize your compliance?</h2>
                 <p class="global-body-light" style="max-width: 600px; margin: 0 auto 2rem;">Connect with our experts today for a tailored roadmap.</p>
-                <a href="${rootPrefix}index.html#get-in-touch" class="sd-primary-btn">
+                <button type="button" class="sd-primary-btn contact-popup-trigger">
                     Get Started with SKPM
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </a>
+                </button>
             </div>
         </div>
     `;
 }
+
+function heroHexBgHTML() {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0" aria-hidden="true">
+  <defs>
+    <pattern id="hp1" width="60" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="30,2 56,16 56,36 30,50 4,36 4,16" fill="none" stroke="rgba(99,160,255,0.18)" stroke-width="1"/>
+    </pattern>
+    <pattern id="hp2" width="60" height="52" patternUnits="userSpaceOnUse" x="30" y="26">
+      <polygon points="30,2 56,16 56,36 30,50 4,36 4,16" fill="none" stroke="rgba(99,160,255,0.10)" stroke-width="0.5"/>
+    </pattern>
+    <linearGradient id="hm" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0c1f4a"/>
+      <stop offset="40%" stop-color="#0c1f4a"/>
+      <stop offset="62%" stop-color="#0c1f4a" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#0c1f4a" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="ho" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.25"/>
+      <stop offset="70%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#hp1)"/>
+  <rect width="1200" height="700" fill="url(#hp2)"/>
+  <rect width="1200" height="700" fill="url(#hm)"/>
+  <polygon points="900,145 948,172 948,228 900,255 852,228 852,172" fill="rgba(59,130,246,0.20)" stroke="rgba(99,160,255,0.60)" stroke-width="1.5"/>
+  <polygon points="790,350 825,370 825,410 790,430 755,410 755,370" fill="rgba(59,130,246,0.12)" stroke="rgba(99,160,255,0.40)" stroke-width="1.5"/>
+  <polygon points="1050,113 1078,129 1078,161 1050,177 1022,161 1022,129" fill="rgba(59,130,246,0.18)" stroke="rgba(99,160,255,0.55)" stroke-width="1.5"/>
+  <polygon points="1110,350 1162,380 1162,440 1110,470 1058,440 1058,380" fill="rgba(59,130,246,0.08)" stroke="rgba(99,160,255,0.25)" stroke-width="1"/>
+  <polygon points="660,80 690,98 690,133 660,150 630,133 630,98" fill="rgba(59,130,246,0.10)" stroke="rgba(99,160,255,0.30)" stroke-width="1"/>
+  <polygon points="870,500 896,515 896,545 870,560 844,545 844,515" fill="rgba(59,130,246,0.15)" stroke="rgba(99,160,255,0.45)" stroke-width="1.5"/>
+  <polygon points="1000,272 1042,296 1042,344 1000,368 958,344 958,296" fill="rgba(59,130,246,0.08)" stroke="rgba(99,160,255,0.22)" stroke-width="1"/>
+  <polygon points="710,456 731,468 731,492 710,504 689,492 689,468" fill="rgba(59,130,246,0.10)" stroke="rgba(99,160,255,0.32)" stroke-width="1"/>
+  <ellipse cx="970" cy="350" rx="130" ry="130" fill="url(#ho)"/>
+</svg>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const el = document.querySelector('.services-hero');
+    if (el) el.insertAdjacentHTML('afterbegin', heroHexBgHTML());
+});
 
 /**
  * About Us Page Rendering
@@ -804,7 +907,7 @@ function renderAboutPage() {
 
                 <div class="foundation-grid">
                     ${foundation.cards.map(card => `
-                        <div class="vm-card">
+                        <div class="vm-card vm-${card.icon}">
                             <div class="vm-icon-box">
                                 ${aboutIcons[card.icon]}
                             </div>
@@ -836,6 +939,9 @@ function renderAboutPage() {
                         return '<div class="team-card about-member-card" data-member-index="' + index + '">' +
                                '<div class="team-img-wrapper">' +
                                '<img src="' + resolveAssetPath(imagePath) + '" alt="' + displayName + '">' +
+                               '<div class="member-card-hover-overlay">' +
+                               '<span class="member-view-profile-btn">View Profile <span class="btn-arrow-box"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></span>' +
+                               '</div>' +
                                '</div>' +
                                '<div class="team-info">' +
                                '<h3>' + displayName + '</h3>' +
@@ -863,16 +969,31 @@ function renderAboutPage() {
                     <div class="about-member-modal-content">
                         <p class="about-member-modal-bio" id="about-member-modal-bio"></p>
                         <div class="about-member-modal-section">
-                            <h4>Specialisations</h4>
+                            <h4>
+                                <span class="modal-section-icon">
+                                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                                </span>
+                                Specialisations
+                            </h4>
                             <ul id="about-member-modal-specializations"></ul>
                         </div>
                         <div class="about-member-modal-meta">
                             <div class="about-member-modal-meta-card about-member-modal-edu">
-                                <h5>Education</h5>
+                                <h5>
+                                    <span class="modal-meta-icon modal-meta-icon-edu">
+                                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                                    </span>
+                                    Education
+                                </h5>
                                 <p id="about-member-modal-education"></p>
                             </div>
                             <div class="about-member-modal-meta-card about-member-modal-achievement">
-                                <h5>Key Achievement</h5>
+                                <h5>
+                                    <span class="modal-meta-icon modal-meta-icon-ach">
+                                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+                                    </span>
+                                    Key Achievement
+                                </h5>
                                 <p id="about-member-modal-achievement"></p>
                             </div>
                         </div>
@@ -1086,5 +1207,136 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.innerHTML = originalBtnText;
             submitBtn.disabled = false;
         }
+    });
+});
+
+// Contact Popup Modal
+document.addEventListener('DOMContentLoaded', () => {
+    const FORM_ACTION = 'https://script.google.com/macros/s/AKfycbxhhuQDkzdh_wme057uVBRUrQtSqVjFOqgRuLHvm3yBdMdvn-yzPraYYtAZ_hUPFFeo/exec';
+
+    const modalHTML = `
+    <div class="contact-popup-modal" id="contact-popup-modal" aria-hidden="true">
+        <div class="contact-popup-backdrop" id="contact-popup-backdrop"></div>
+        <div class="contact-popup-panel" role="dialog" aria-modal="true" aria-label="Get In Touch">
+            <button type="button" class="contact-popup-close" id="contact-popup-close" aria-label="Close">&times;</button>
+            <div class="contact-popup-inner">
+
+                <!-- Default: form view -->
+                <div id="contact-popup-form-view">
+                    <div class="contact-popup-header">
+                        <h2 class="contact-popup-title">Get In Touch</h2>
+                        <p class="contact-popup-subtitle">Fill out the form and our team will get back to you within 24 hours.</p>
+                    </div>
+                    <form id="contact-popup-form" action="${FORM_ACTION}" method="POST" novalidate>
+                        <div id="contact-popup-error" style="display:none; padding:0.9rem 1rem; border-radius:8px; margin-bottom:1.2rem; font-weight:600; font-size:0.9rem; color:#DC2626; background:#FEE2E2;"></div>
+                        <div class="form-group">
+                            <label>Full Name <span style="color:#ef4444;">*</span></label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address <span style="color:#ef4444;">*</span></label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number <span style="color:#ef4444;">*</span></label>
+                            <input type="tel" name="phone" class="form-control" required minlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Message <span style="color:#ef4444;">*</span></label>
+                            <textarea name="message" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-submit" id="contact-popup-submit">
+                            Send Message
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Loading view -->
+                <div id="contact-popup-loading-view" style="display:none;">
+                    <div class="contact-popup-state-view">
+                        <div class="contact-popup-spinner"></div>
+                        <p class="contact-popup-state-msg">Submitting your form...</p>
+                    </div>
+                </div>
+
+                <!-- Success view -->
+                <div id="contact-popup-success-view" style="display:none;">
+                    <div class="contact-popup-state-view">
+                        <div class="contact-popup-success-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 10 11 15 8 12"/></svg>
+                        </div>
+                        <h3 class="contact-popup-success-title">Message Sent!</h3>
+                        <p class="contact-popup-state-msg">Thank you! Our team will get back to you within 24 hours.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const modal = document.getElementById('contact-popup-modal');
+    const backdrop = document.getElementById('contact-popup-backdrop');
+    const closeBtn = document.getElementById('contact-popup-close');
+    const form = document.getElementById('contact-popup-form');
+    const formView = document.getElementById('contact-popup-form-view');
+    const loadingView = document.getElementById('contact-popup-loading-view');
+    const successView = document.getElementById('contact-popup-success-view');
+    const errorDiv = document.getElementById('contact-popup-error');
+
+    const showView = (view) => {
+        formView.style.display = view === 'form' ? 'block' : 'none';
+        loadingView.style.display = view === 'loading' ? 'block' : 'none';
+        successView.style.display = view === 'success' ? 'block' : 'none';
+    };
+
+    const openModal = () => {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        form.reset();
+        errorDiv.style.display = 'none';
+        showView('form');
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.contact-popup-trigger')) {
+            e.preventDefault();
+            openModal();
+        }
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorDiv.style.display = 'none';
+        showView('loading');
+
+        fetch(this.action, { method: 'POST', body: new FormData(this) })
+            .then(r => r.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    showView('success');
+                    form.reset();
+                } else {
+                    throw new Error(data.error || 'Unknown error');
+                }
+            })
+            .catch(() => {
+                showView('form');
+                errorDiv.textContent = 'Oops! Something went wrong. Please try again later.';
+                errorDiv.style.display = 'block';
+            });
     });
 });

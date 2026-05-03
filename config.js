@@ -51,7 +51,7 @@ const siteConfig = {
             instagram: "https://www.instagram.com/sarthak_kothavale/"
         },
         {
-            name: "CA Pranav Dnyaneshwar <br> Mandke",
+            name: "CFA Pranav Dnyaneshwar <br> Mandke",
             qualifications: "ACA | CFA | M.Com",
             imagePath: "images/pranav.png",
             linkedin: "https://www.linkedin.com/in/theonlymandke/",

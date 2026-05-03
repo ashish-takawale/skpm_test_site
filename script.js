@@ -87,7 +87,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (brandQuote && siteConfig.heroSettings) {
             const l1 = siteConfig.heroSettings.brandQuoteLine1 || '';
             const l2 = siteConfig.heroSettings.brandQuoteLine2 || '';
-            brandQuote.innerHTML = `<span class="bq-line1">${l1}</span><br><span class="bq-line2">${l2}</span>`;
+            const lastSpace = l2.lastIndexOf(' ');
+            const l2a = lastSpace >= 0 ? l2.slice(0, lastSpace) : l2;
+            const l2b = lastSpace >= 0 ? l2.slice(lastSpace + 1) : '';
+            brandQuote.innerHTML = `<span class="bq-line1">${l1}</span><br><span class="bq-line2">${l2a}</span><div class="bq-red-line"></div><span class="bq-line2 bq-line2b">${l2b}</span>`;
         }
 
         // ── SHARED FOOTER INJECTION ──────────────────────────────
@@ -484,15 +487,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const homeServicesCardGrid = document.querySelector('.hover-cards-grid');
     if (homeServicesCardGrid) {
-        const curtainObserver = new IntersectionObserver((entries) => {
+        const waterfallObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    curtainObserver.unobserve(entry.target);
-                }
+                if (!entry.isIntersecting) return;
+                waterfallObserver.unobserve(entry.target);
+                const cards = Array.from(entry.target.querySelectorAll('.hover-img-card'));
+
+                // Reset to hidden with no transition so the browser registers starting state
+                cards.forEach(card => {
+                    card.style.transition = 'none';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(-140px)';
+                });
+
+                // Double rAF: ensures browser paints the reset before animating
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        cards.forEach((card, i) => {
+                            const col = i % 5;
+                            const row = Math.floor(i / 5);
+                            const delay = col * 160 + row * 80;
+                            card.style.transition = `transform 0.9s ${delay}ms cubic-bezier(0.22, 1, 0.36, 1), opacity 0.55s ${delay}ms ease`;
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        });
+
+                        // Clear only the inline transition after animation so CSS hover transitions take over.
+                        // Keep opacity/transform inline so cards stay visible (CSS base is opacity:0).
+                        const maxDelay = 4 * 160 + 1 * 80 + 900; // 1620ms
+                        setTimeout(() => {
+                            cards.forEach(card => {
+                                card.style.transition = '';
+                            });
+                        }, maxDelay + 50);
+                    });
+                });
             });
         }, { threshold: 0.15 });
-        curtainObserver.observe(homeServicesCardGrid);
+        waterfallObserver.observe(homeServicesCardGrid);
     }
 
     const aboutFirmSection = document.querySelector('.about-firm-section');
@@ -812,7 +844,7 @@ function heroHexBgHTML() {
     <linearGradient id="hm" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#0c1f4a"/>
       <stop offset="40%" stop-color="#0c1f4a"/>
-      <stop offset="62%" stop-color="#0c1f4a" stop-opacity="0.55"/>
+      <stop offset="52%" stop-color="#0c1f4a" stop-opacity="0.55"/>
       <stop offset="100%" stop-color="#0c1f4a" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="ho" cx="50%" cy="50%" r="50%">
@@ -1094,52 +1126,99 @@ function renderAboutPage() {
     });
 }
 
+// Shared Form Submission Overlay
+(function () {
+    const overlayHTML = `
+    <div class="fso-overlay" id="fso-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="fso-backdrop"></div>
+        <div class="fso-card">
+            <div id="fso-loading">
+                <div class="fso-spinner"></div>
+                <p class="fso-msg" style="margin-top:1rem;">Submitting your details&hellip;</p>
+            </div>
+            <div id="fso-success" style="display:none; flex-direction:column; align-items:center; gap:1rem;">
+                <div class="fso-success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="16 10 11 15 8 12"/>
+                    </svg>
+                </div>
+                <h3 class="fso-title" id="fso-success-title">Thank You!</h3>
+                <p class="fso-msg" id="fso-success-msg"></p>
+                <button type="button" class="fso-close-btn" id="fso-close-btn">Close</button>
+            </div>
+        </div>
+    </div>`;
+    document.addEventListener('DOMContentLoaded', () => {
+        document.body.insertAdjacentHTML('beforeend', overlayHTML);
+        document.getElementById('fso-close-btn').addEventListener('click', window._fsoClose);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window._fsoClose(); });
+    });
+
+    window._fsoShow = function (state, successMsg) {
+        const overlay = document.getElementById('fso-overlay');
+        const loading = document.getElementById('fso-loading');
+        const success = document.getElementById('fso-success');
+        if (!overlay) return;
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        if (state === 'loading') {
+            loading.style.display = 'flex';
+            success.style.display = 'none';
+        } else {
+            loading.style.display = 'none';
+            if (successMsg) document.getElementById('fso-success-msg').textContent = successMsg;
+            success.style.display = 'flex';
+        }
+    };
+
+    window._fsoClose = function () {
+        const overlay = document.getElementById('fso-overlay');
+        if (!overlay) return;
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+}());
+
 // Contact Form Submission Handler
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const messageDiv = document.getElementById('form-message');
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
-            
-            // Show loading state
-            submitBtn.innerHTML = 'Sending...';
+
             submitBtn.disabled = true;
             messageDiv.style.display = 'none';
-            
-            const formData = new FormData(this);
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    messageDiv.textContent = 'Thank you! Your message has been sent successfully.';
-                    messageDiv.style.color = '#059669'; // Green text
-                    messageDiv.style.backgroundColor = '#D1FAE5'; // Light green bg
+            window._fsoShow('loading');
+
+            fetch(this.action, { method: 'POST', body: new FormData(this) })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        contactForm.reset();
+                        window._fsoShow('success', 'Thank you! Your message has been received. Our team will get back to you within 24 hours.');
+                    } else {
+                        throw new Error(data.error || 'Unknown error occurred');
+                    }
+                })
+                .catch(error => {
+                    window._fsoClose();
+                    messageDiv.textContent = 'Oops! Something went wrong. Please try again later.';
+                    messageDiv.style.color = '#DC2626';
+                    messageDiv.style.backgroundColor = '#FEE2E2';
                     messageDiv.style.display = 'block';
-                    contactForm.reset();
-                } else {
-                    throw new Error(data.error || 'Unknown error occurred');
-                }
-            })
-            .catch(error => {
-                messageDiv.textContent = 'Oops! Something went wrong. Please try again later.';
-                messageDiv.style.color = '#DC2626'; // Red text
-                messageDiv.style.backgroundColor = '#FEE2E2'; // Light red bg
-                messageDiv.style.display = 'block';
-                console.error('Form submission error:', error);
-            })
-            .finally(() => {
-                // Restore button state
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-            });
+                    console.error('Form submission error:', error);
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                });
         });
     }
 });
@@ -1156,7 +1235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitBtn = this.querySelector('button[type="submit"]');
         const resumeInput = document.getElementById('c-resume');
         const originalBtnText = submitBtn.innerHTML;
-        const maxBytes = 10 * 1024 * 1024; // 10 MB
+        const maxBytes = 10 * 1024 * 1024;
         const allowedExt = ['pdf', 'doc', 'docx', 'rtf', 'txt', 'odt'];
 
         if (resumeInput && resumeInput.files && resumeInput.files.length > 0) {
@@ -1169,7 +1248,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageDiv.style.display = 'block';
                 return;
             }
-
             if (file.size > maxBytes) {
                 messageDiv.textContent = 'Resume file is too large. Maximum allowed size is 10 MB.';
                 messageDiv.style.color = '#DC2626';
@@ -1179,29 +1257,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        submitBtn.innerHTML = 'Submitting...';
         submitBtn.disabled = true;
         messageDiv.style.display = 'none';
+        window._fsoShow('loading');
 
         try {
             const formData = new FormData(this);
+            formData.delete('resume'); // Apps Script e.parameter can't read raw binary — replaced with base64 fields below
             formData.append('form_type', 'careers');
             formData.append('sheet_name', 'careers');
             formData.append('notification_email', 'contact@skpm.co.in');
             formData.append('notification_subject', `New Career Application - ${formData.get('name') || ''}`);
 
-            await fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            });
+            if (resumeInput && resumeInput.files && resumeInput.files.length > 0) {
+                const file = resumeInput.files[0];
+                const base64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+                formData.append('resume_base64', base64);
+                formData.append('resume_name', file.name);
+                formData.append('resume_mime', file.type || 'application/octet-stream');
+            }
 
-            messageDiv.textContent = 'Thank you! Your application has been submitted successfully.';
-            messageDiv.style.color = '#059669';
-            messageDiv.style.backgroundColor = '#D1FAE5';
-            messageDiv.style.display = 'block';
+            await fetch(this.action, { method: 'POST', body: formData, mode: 'no-cors' });
+
             careersForm.reset();
+            window._fsoShow('success', 'Thank you! Your application has been submitted successfully. We will review it and get back to you soon.');
         } catch (error) {
+            window._fsoClose();
             messageDiv.textContent = 'Oops! Something went wrong. Please try again later.';
             messageDiv.style.color = '#DC2626';
             messageDiv.style.backgroundColor = '#FEE2E2';

@@ -2104,7 +2104,7 @@ nav.navbar-scrolled.nav-dark-bg .nav-links a {
    Services Page Components
    ======================================= */
 .services-hero {
-    background: url('../../images/services/hero_section.jpeg') center center / cover no-repeat;
+    background: url('images/services/hero_section.jpeg') center center / cover no-repeat;
     padding: 5.5rem 0 7rem 0;
     min-height: 100dvh;
     display: flex;

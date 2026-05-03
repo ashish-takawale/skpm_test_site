@@ -29,9 +29,7 @@
     font-size: 2.8rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, #0d47a1 0%, #38BDF8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #1F5FAA;
     display: inline-block;
     line-height: 1.2;
 }
@@ -461,6 +459,7 @@ nav.navbar-scrolled.nav-dark-bg .nav-links a {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 1.2rem;
+    perspective: 1200px;
 }
 
 .colorful-cards-grid {
@@ -487,6 +486,24 @@ nav.navbar-scrolled.nav-dark-bg .nav-links a {
     }
 }
 
+/* Curtain Drop Entrance Keyframe */
+@keyframes curtainDrop {
+    0% {
+        transform: rotateX(-90deg);
+        opacity: 0;
+    }
+    60% {
+        opacity: 1;
+    }
+    80% {
+        transform: rotateX(6deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
+
 .hover-img-card {
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.06);
@@ -503,62 +520,39 @@ nav.navbar-scrolled.nav-dark-bg .nav-links a {
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-    animation: cardPop 6s ease-in-out infinite;
+    /* Curtain start: folded flat at the top rail */
+    transform-origin: top center;
+    transform: rotateX(-90deg);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.35s ease,
+                border-left-color 0.35s ease,
+                border-bottom-color 0.35s ease;
 }
 
-/* Vertical Pairing: Column 1 (1&6), Column 2 (2&7), etc. */
-.hover-img-card:nth-child(1),
-.hover-img-card:nth-child(6) {
-    animation-delay: 0s;
+/* Grand reveal: cards drop like curtain panels when section enters view */
+.hover-cards-grid.in-view .hover-img-card {
+    animation: curtainDrop 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-.hover-img-card:nth-child(2),
-.hover-img-card:nth-child(7) {
-    animation-delay: 1.2s;
-}
-
-.hover-img-card:nth-child(3),
-.hover-img-card:nth-child(8) {
-    animation-delay: 2.4s;
-}
-
-.hover-img-card:nth-child(4),
-.hover-img-card:nth-child(9) {
-    animation-delay: 3.6s;
-}
-
-.hover-img-card:nth-child(5),
-.hover-img-card:nth-child(10) {
-    animation-delay: 4.8s;
-}
-
-/* Pop Animation: Scale and Shadow boost for 1/5th of the cycle */
-@keyframes cardPop {
-
-    0%,
-    20%,
-    100% {
-        transform: scale(1);
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-        z-index: 1;
-    }
-
-    5%,
-    15% {
-        transform: scale(1.06);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        z-index: 10;
-    }
-}
+/* Staggered left-to-right drop, 10 cards */
+.hover-cards-grid.in-view .hover-img-card:nth-child(1)  { animation-delay: 0s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(2)  { animation-delay: 0.1s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(3)  { animation-delay: 0.2s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(4)  { animation-delay: 0.3s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(5)  { animation-delay: 0.4s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(6)  { animation-delay: 0.5s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(7)  { animation-delay: 0.6s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(8)  { animation-delay: 0.7s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(9)  { animation-delay: 0.8s; }
+.hover-cards-grid.in-view .hover-img-card:nth-child(10) { animation-delay: 0.9s; }
 
 .hover-img-card:hover {
     transform: translateY(-12px) !important;
     box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
     border-left-color: transparent;
     border-bottom-color: transparent;
-    animation-play-state: paused;
 }
 
 @media (max-width: 1200px) {
@@ -2553,7 +2547,7 @@ nav.navbar-scrolled .mobile-toggle {
     }
 
     .hero-title {
-        font-size: 2.8rem !important;
+        font-size: 4.8rem !important;
         min-height: auto !important;
         margin-bottom: 1.5rem !important;
     }
@@ -2784,8 +2778,29 @@ nav.navbar-scrolled .mobile-toggle {
 
     /* Hero Section */
     .hero-blur-bg {
-        padding: 130px 1rem 5rem 1rem;
-        min-height: auto;
+        padding: 80px 2rem 4rem 2rem;
+        min-height: 100dvh;
+        align-items: center;
+    }
+
+    .hero-blur-bg .container {
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .hero-blur-bg .hero-title {
+        margin-top: 0 !important;
+        margin-bottom: 1.2rem !important;
+    }
+
+    .hero-blur-bg #hero-subtitle {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        text-align: center !important;
+        font-size: 1.05rem !important;
+        max-width: 320px !important;
     }
 
     .logo-large {
@@ -2793,8 +2808,8 @@ nav.navbar-scrolled .mobile-toggle {
     }
 
     .hero-title {
-        font-size: 2.3rem !important;
-        line-height: 1.3 !important;
+        font-size: 4.2rem !important;
+        line-height: 1.2 !important;
     }
 
     /* Team Section Stacking */
@@ -2887,7 +2902,7 @@ nav.navbar-scrolled .mobile-toggle {
     }
 
     .services-hero h1 {
-        font-size: 2.5rem !important;
+        font-size: 3.2rem !important;
         text-align: center;
     }
 
@@ -5019,5 +5034,433 @@ nav.navbar-scrolled .mobile-toggle {
 
     .contact-popup-title {
         font-size: 1.35rem;
+    }
+}
+
+/* ===========================================================
+   COMPREHENSIVE RESPONSIVE IMPROVEMENTS
+   Mobile, Tablet & Responsive View — All Pages
+   Preserves desktop layout; improves smaller breakpoints.
+   =========================================================== */
+
+/* ─── Large Tablet: ≤ 1199px ─── */
+@media (max-width: 1199px) {
+    .global-heading,
+    .global-heading-light {
+        font-size: 2.4rem;
+    }
+}
+
+/* ─── Tablet: ≤ 992px ─── */
+@media (max-width: 992px) {
+    /* About hero h1 — fix white-space overflow on tablet */
+    .about-hero h1 {
+        font-size: 4.2rem !important;
+        white-space: normal !important;
+        line-height: 1.15 !important;
+    }
+
+    /* Services hero h1 (inline style override) */
+    .services-hero h1 {
+        font-size: 3.8rem !important;
+        white-space: normal !important;
+    }
+
+    /* Careers hero h1 */
+    .careers-hero h1 {
+        font-size: 4rem !important;
+    }
+
+    /* About hero stats: 4 → 2 cols on tablet */
+    .about-hero-stats {
+        grid-template-columns: repeat(2, 1fr) !important;
+        max-width: 700px;
+        gap: 0.8rem;
+    }
+
+    /* Reset services-hero stats translateY on tablet */
+    .services-hero .about-hero-stats {
+        transform: translateY(2rem);
+    }
+
+    /* Global headings scale down on tablet */
+    .global-heading,
+    .global-heading-light {
+        font-size: 2rem;
+    }
+
+    /* Story / Foundation sections: remove fixed 100dvh clipping */
+    .story-section,
+    .foundation-section {
+        height: auto;
+        min-height: auto;
+        overflow: visible;
+        padding: 4rem 0;
+    }
+
+    /* About firm section */
+    .about-firm-section {
+        min-height: auto;
+        padding: 4rem 0;
+    }
+
+    /* Foundation VM grid: 3 → 2 cols at tablet */
+    .foundation-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Story image box: remove excess top margin */
+    .story-image-box {
+        margin-top: 1rem;
+    }
+
+    /* Brand quote smaller on tablet */
+    .bq-line2 {
+        font-size: 3.2rem;
+    }
+}
+
+/* ─── Tablet Portrait / Mobile: ≤ 768px ─── */
+@media (max-width: 768px) {
+    /* About hero h1 — critical: remove nowrap, scale font */
+    .about-hero h1 {
+        font-size: 3.2rem !important;
+        white-space: normal !important;
+        line-height: 1.2 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Services hero h1 */
+    .services-hero h1 {
+        font-size: 3rem !important;
+        white-space: normal !important;
+    }
+
+    /* Careers hero h1 */
+    .careers-hero h1 {
+        font-size: 3.2rem !important;
+        line-height: 1.2 !important;
+    }
+
+    /* Global headings */
+    .global-heading,
+    .global-heading-light {
+        font-size: 1.8rem;
+    }
+
+    /* Contact section h3 (inline style override) */
+    .contact-info-col h3 {
+        font-size: 1.6rem !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Footer logo smaller on mobile */
+    .footer-logo {
+        height: 80px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Services hero stats: reset vertical translation */
+    .services-hero .about-hero-stats {
+        transform: none !important;
+        margin-top: 2rem;
+    }
+
+    /* Story & Foundation: remove fixed viewport height */
+    .story-section,
+    .foundation-section {
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
+        padding: 3rem 0 !important;
+    }
+
+    /* Foundation grid: 2 → 1 col on mobile */
+    .foundation-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* VM cards on mobile */
+    .vm-card {
+        padding: 1.2rem 1.2rem !important;
+    }
+
+    /* Story image: no excess top margin on mobile */
+    .story-image-box {
+        margin-top: 0 !important;
+    }
+
+    /* Story float card on mobile */
+    .story-float-card {
+        padding: 0.8rem 1rem !important;
+        gap: 0.8rem !important;
+        bottom: 1rem !important;
+        left: 0.5rem !important;
+        right: 0.5rem !important;
+        max-width: none !important;
+        width: auto !important;
+    }
+
+    /* Brand quote: full width on mobile */
+    .brand-quote {
+        max-width: 100% !important;
+    }
+
+    /* Honeycomb: smaller hexagons on mobile */
+    .hex-cell {
+        width: 120px !important;
+        height: 135px !important;
+    }
+
+    .honey-row {
+        gap: 8px !important;
+    }
+
+    /* About firm section */
+    .about-firm-section {
+        min-height: auto !important;
+        padding: 3rem 0 !important;
+    }
+
+    /* Services page: reduce excessive padding-top on section after hero */
+    .services-hero + .section-padding {
+        padding-top: 3rem !important;
+    }
+
+    /* SD (service detail) hero padding */
+    .sd-container {
+        padding: 5.5rem 1rem 2.5rem;
+    }
+
+    /* About hero: ensure text is readable on mobile */
+    .about-hero p {
+        font-size: 1rem !important;
+        padding: 0 0.5rem;
+    }
+
+    /* Clients ribbon: smaller logos */
+    .client-logo-box {
+        width: 75px;
+        height: 70px;
+    }
+
+    /* Section headings that have inline styles */
+    .stats-section {
+        padding: 2rem 0;
+    }
+}
+
+/* ─── Small Mobile: ≤ 480px ─── */
+@media (max-width: 480px) {
+    /* About hero h1 */
+    .about-hero h1 {
+        font-size: 2.6rem !important;
+        letter-spacing: -0.3px !important;
+    }
+
+    /* Careers hero h1 */
+    .careers-hero h1 {
+        font-size: 2.6rem !important;
+    }
+
+    /* Services hero h1 */
+    .services-hero h1 {
+        font-size: 2.6rem !important;
+    }
+
+    /* Global headings */
+    .global-heading,
+    .global-heading-light {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+
+    /* Brand quote lines */
+    .bq-line1 {
+        font-size: 1.4rem !important;
+    }
+
+    .bq-line2 {
+        font-size: 2.2rem !important;
+        letter-spacing: -0.5px !important;
+    }
+
+    /* How We Work: single column on tiny screens */
+    .hww-grid {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .hww-card {
+        width: 100% !important;
+        max-width: 360px !important;
+    }
+
+    .hww-connector {
+        display: none !important;
+    }
+
+    /* About feature cards: 2 → 1 col */
+    .about-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.8rem !important;
+    }
+
+    /* Equalise border-radii for stacked feature cards */
+    .about-cards-grid .about-feature-card:nth-child(1),
+    .about-cards-grid .about-feature-card:nth-child(2),
+    .about-cards-grid .about-feature-card:nth-child(3),
+    .about-cards-grid .about-feature-card:nth-child(4) {
+        border-radius: 14px !important;
+    }
+
+    /* Honeycomb: smaller on tiny screens */
+    .hex-cell {
+        width: 100px !important;
+        height: 113px !important;
+    }
+
+    .hex-content h4 {
+        font-size: 0.7rem !important;
+        line-height: 1.2 !important;
+        padding: 0 4px !important;
+    }
+
+    /* Submit button full width */
+    .btn-submit {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* CTA banners on small mobile */
+    .services-cta-banner {
+        padding: 1.5rem 1rem !important;
+        border-radius: 16px !important;
+    }
+
+    .sd-cta-banner {
+        padding: 1.5rem 1rem !important;
+        border-radius: 16px !important;
+    }
+
+    /* Stats numbers */
+    .stat-number {
+        font-size: 1.8rem !important;
+    }
+
+    .stat-plus {
+        font-size: 1.4rem !important;
+    }
+
+    /* Footer grid tighter spacing */
+    .footer-grid-clean {
+        gap: 1.5rem !important;
+    }
+
+    /* About hero stats tighter on tiny screens */
+    .about-hero-stats {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+    }
+
+    .about-stat-card {
+        padding: 0.9rem 0.5rem !important;
+        border-radius: 14px !important;
+    }
+
+    .about-stat-card .num {
+        font-size: 1.5rem !important;
+    }
+
+    .about-stat-card .lab {
+        font-size: 0.78rem !important;
+    }
+
+    /* Stat item: 2 cols better on small screen */
+    .stats-grid.five-cols {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0 !important;
+    }
+
+    .stats-grid.five-cols .stat-item:nth-child(5) {
+        grid-column: 1 / -1;
+        border-bottom: none !important;
+    }
+
+    /* Services feature grid */
+    .service-feature-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* SD stat row: already 1 col at 768px, keep */
+
+    /* Navigation CTA button padding on small mobile */
+    .nav-cta-btn {
+        padding: 0.9rem 1.2rem !important;
+    }
+
+    /* Contact info section full width */
+    .contact-info-col {
+        padding-right: 0 !important;
+    }
+
+    /* Footer logo */
+    .footer-logo {
+        height: 70px !important;
+    }
+
+    /* Team grid: 1 col on tiny screens for better readability */
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* About leadership grid */
+    .about-leadership-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Hero title on index page */
+    .hero-title {
+        font-size: 3.6rem !important;
+        line-height: 1.2 !important;
+        min-height: auto !important;
+    }
+
+    /* Hero section padding */
+    .hero-blur-bg {
+        padding: 80px 1.5rem 4rem 1.5rem !important;
+        align-items: center !important;
+    }
+
+    .hero-blur-bg .container {
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .hero-blur-bg .hero-title {
+        margin-top: 0 !important;
+        margin-bottom: 1.2rem !important;
+    }
+
+    .hero-blur-bg #hero-subtitle {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        text-align: center !important;
+        font-size: 1rem !important;
+        max-width: 300px !important;
+    }
+
+    /* Section padding on tiny screens */
+    .section-padding {
+        padding: 1.5rem 0 !important;
+    }
+
+    /* WCU cards: 1 col on tiny screens */
+    .why-choose-us-grid {
+        grid-template-columns: 1fr !important;
     }
 }

@@ -482,6 +482,19 @@ document.addEventListener("DOMContentLoaded", () => {
         servicesObserver.observe(servicesGrid);
     }
 
+    const homeServicesCardGrid = document.querySelector('.hover-cards-grid');
+    if (homeServicesCardGrid) {
+        const curtainObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    curtainObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        curtainObserver.observe(homeServicesCardGrid);
+    }
+
     const aboutFirmSection = document.querySelector('.about-firm-section');
     if (aboutFirmSection) {
         const aboutObserver = new IntersectionObserver((entries) => {

@@ -30,7 +30,7 @@ const aboutConfig = {
             title: "4 Expert Partners",
             subtitle: "Serving clients since 2009"
         },
-        image: "../../images/about/leaf.jpeg"
+        image: "../images/about/leaf.jpeg"
     },
     foundation: {
         badge: "Our Foundation",
@@ -113,10 +113,10 @@ const aboutConfig = {
                 email: "casarthakk@gmail.com"
             },
             {
-                name: "CFA Pranav Dnyaneshwar Mandke",
-                fullName: "CFA Pranav Dnyaneshwar Mandke",
+                name: "CA Pranav Dnyaneshwar Mandke, CFA",
+                fullName: "CA Pranav Dnyaneshwar Mandke, CFA",
                 designation: "Founding Partner",
-                bio: "CFA Pranav Dnyaneshwar Mandke is a Founding Partner holding both the CFA Charter (CFA Institute, 2023) and the CA designation (ICAI, 2022), a rare dual qualification in Indian practice. Active in the investment landscape since 2017 and in independent practice since 2024, he is currently a PhD Research Scholar at Savitribai Phule Pune University. At SKPM, he leads Direct Tax, GST, Financial Advisory, NRI Compliance, and Ind AS verticals, and is recognized for resolving complex tax positions in multi-year reassessments and contested GST matters. His finance management practice spans FP&A and MIS frameworks for SMEs and investment advisory for HNI clients. He also mentors CA Foundation aspirants through Ekatvam Academy.",
+                bio: "CA Pranav Dnyaneshwar Mandke is a Founding Partner holding both the CFA Charter (CFA Institute, 2023) and the CA designation (ICAI, 2022), a rare dual qualification in Indian practice. Active in the investment landscape since 2017 and in independent practice since 2024, he is currently a PhD Research Scholar at Savitribai Phule Pune University. At SKPM, he leads Direct Tax, GST, Financial Advisory, NRI Compliance, and Ind AS verticals, and is recognized for resolving complex tax positions in multi-year reassessments and contested GST matters. His finance management practice spans FP&A and MIS frameworks for SMEs and investment advisory for HNI clients. He also mentors CA Foundation aspirants through Ekatvam Academy.",
                 image: "images/pranav.png",
                 popupImage: "images/pranav2.png",
                 accentColor: "#0EA5E9",

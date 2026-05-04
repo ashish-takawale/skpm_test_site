@@ -51,11 +51,11 @@ const siteConfig = {
             instagram: "https://www.instagram.com/sarthak_kothavale/"
         },
         {
-            name: "CFA Pranav Dnyaneshwar <br> Mandke",
+            name: "CA Pranav Dnyaneshwar <br> Mandke, CFA",
             qualifications: "ACA | CFA | M.Com",
             imagePath: "images/pranav.png",
             linkedin: "https://www.linkedin.com/in/theonlymandke/",
-            instagram: "https://www.instagram.com/theonlymandke/"
+            instagram: "https://www.instagram.com/ca_pdm_cfa/"
         },
         {
             name: "CS Shalmali Jeetendra <br> Parasnis",

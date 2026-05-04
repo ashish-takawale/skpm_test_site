@@ -2,8 +2,14 @@ function isNestedPagePath() {
     return window.location.pathname.includes('/pages/');
 }
 
+function isDirectlyInPages() {
+    // True for pages/file.html, false for pages/subdir/file.html
+    return /\/pages\/[^/]+$/.test(window.location.pathname);
+}
+
 function getRootPrefix() {
-    return isNestedPagePath() ? '../../' : '';
+    if (!isNestedPagePath()) return '';
+    return isDirectlyInPages() ? '../' : '../../';
 }
 
 function getServicesPrefix() {
@@ -11,7 +17,8 @@ function getServicesPrefix() {
 }
 
 function getAboutPagePath() {
-    return isNestedPagePath() ? '../about/about.html' : 'pages/about/about.html';
+    if (!isNestedPagePath()) return 'pages/about.html';
+    return isDirectlyInPages() ? 'about.html' : '../about.html';
 }
 
 function resolveAssetPath(assetPath) {
@@ -956,7 +963,7 @@ function renderAboutPage() {
         </section>
 
         <section class="leadership-section">
-            <div class="container" style="max-width: 1320px;">
+            <div class="container" style="max-width: 1440px;">
                 <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
                     <div style="margin-bottom: 0.5rem;">
                         <span class="hero-badge">${leadership.badge}</span>
